@@ -514,63 +514,197 @@
 
   /* RESPONSIVE */
   @media (max-width: 600px) {
-    header { padding: 40px 20px; }
-    .flight-banner { padding: 14px 20px; }
-    main { padding: 30px 16px 60px; }
+    main { padding: 20px 16px 20px; }
     .day-body { padding-left: 16px; }
     .timeline::before { display: none; }
     .day-number { width: 56px; }
     .day-number .n { font-size: 22px; }
-    .union-jack { font-size: 40px; right: 20px; }
   }
+
+  /* ===== APP SHELL ===== */
+  body {
+    padding-top: 108px;
+    padding-bottom: 70px;
+  }
+
+  /* App header (fixed) */
+  .app-header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
+    background: var(--blue);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+  }
+
+  .app-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px 8px;
+  }
+
+  .app-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2px;
+  }
+
+  .app-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 21px;
+    font-weight: 700;
+    color: white;
+    line-height: 1;
+  }
+
+  .app-title span { color: var(--gold); font-style: italic; }
+
+  .flight-mini {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: rgba(255,255,255,0.7);
+    text-align: right;
+    line-height: 1.7;
+  }
+
+  /* Day tabs */
+  .day-tabs {
+    display: flex;
+    gap: 6px;
+    padding: 0 16px 10px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .day-tabs::-webkit-scrollbar { display: none; }
+
+  .day-tab {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px 13px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.1);
+    cursor: pointer;
+    transition: background 0.15s;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+  .day-tab.active { background: var(--gold); }
+
+  .day-tab-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.9);
+    line-height: 1;
+  }
+  .day-tab.active .day-tab-num { color: var(--blue); }
+
+  .day-tab-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1;
+    margin-top: 2px;
+  }
+  .day-tab.active .day-tab-date { color: rgba(1,33,105,0.65); }
+
+  /* Day cards: only active one visible, body always open */
+  .day-card {
+    display: none;
+    cursor: default;
+  }
+  .day-card.active { display: block; }
+  .day-card.active .day-body { display: block; }
+  .day-card .chevron { display: none; }
+
+  /* Info section placeholder */
+  .coming-soon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 24px;
+    color: var(--muted);
+    text-align: center;
+    gap: 12px;
+  }
+  .coming-soon-icon { font-size: 48px; }
+  .coming-soon h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--ink);
+  }
+  .coming-soon p {
+    font-size: 13px;
+    max-width: 260px;
+  }
+
+  /* Bottom nav */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 200;
+    background: white;
+    border-top: 1px solid var(--light);
+    display: flex;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.06);
+  }
+
+  .nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 9px 0 7px;
+    gap: 3px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+
+  .nav-icon { font-size: 20px; line-height: 1; }
+
+  .nav-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .nav-item.active .nav-label { color: var(--blue); }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="union-jack">🇬🇧</div>
-  <p class="header-tag">Itinerario Famiglia · 29 Luglio – 6 Agosto 2025 · 9 giorni · 8 notti</p>
-  <h1>Londra<br><span>2025</span></h1>
-  <div class="header-sub">
-    <span>🏨 <b>K Hotel Kensington</b></span>
-    <span>👨‍👩‍👧‍👦 2 adulti + 2 bambini (7 e 9 anni)</span>
+<div class="app-header">
+  <div class="app-bar">
+    <div>
+      <div class="app-tag">29 LUG – 6 AGO 2026 · Famiglia</div>
+      <div class="app-title">Londra <span>2026</span></div>
+    </div>
+    <div class="flight-mini">
+      <div>✈️ MXP→LGW · 10:30</div>
+      <div>🏨 K Hotel Kensington</div>
+    </div>
   </div>
-</header>
-
-<div class="flight-banner">
-  <span class="plane-icon">✈️</span>
-  <div class="flight-item">
-    <span style="opacity:0.7;font-size:11px;">ANDATA</span>
-    <span class="route">MXP → LGW</span>
-    <span>10:30 – 11:30</span>
-  </div>
-  <span class="flight-separator">|</span>
-  <div class="flight-item">
-    <span style="opacity:0.7;font-size:11px;">RITORNO</span>
-    <span class="route">LGW → MXP</span>
-    <span>15:45 – 18:45</span>
-  </div>
-  <span class="flight-separator">|</span>
-  <span style="font-size:12px; opacity:0.8;">🚌 Transfer Gatwick ↔ Kensington ~60–75 min</span>
+  <div class="day-tabs" id="dayTabs"></div>
 </div>
 
 <main>
 
-  <div class="section-title">Legenda</div>
-  <div class="legend">
-    <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div> Attrazione / visita</div>
-    <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div> Evento prenotato / fisso</div>
-    <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div> Pranzo / cena consigliata</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#ccc; border:1px solid #999"></div> Transfer / logistica</div>
-  </div>
-
-  <div class="section-title">Il Programma</div>
-  <p style="font-size:13px;color:var(--muted);margin-bottom:28px;">Clicca su ogni giorno per espandere i dettagli.</p>
-
+  <div id="itinerario-section">
   <div class="days-wrapper">
 
     <!-- GIORNO 1 -->
-    <div class="day-card" onclick="toggle(this)">
+    <div class="day-card">
       <div class="day-header">
         <div class="day-number">
           <div class="n">1</div>
@@ -653,7 +787,7 @@
     </div>
 
     <!-- GIORNO 2 -->
-    <div class="day-card" onclick="toggle(this)">
+    <div class="day-card">
       <div class="day-header">
         <div class="day-number">
           <div class="n">2</div>
@@ -729,7 +863,7 @@
     </div>
 
     <!-- GIORNO 3 -->
-    <div class="day-card" onclick="toggle(this)">
+    <div class="day-card">
       <div class="day-header">
         <div class="day-number special">
           <div class="n">3</div>
@@ -804,7 +938,7 @@
     </div>
 
     <!-- GIORNO 4 -->
-    <div class="day-card" onclick="toggle(this)">
+    <div class="day-card">
       <div class="day-header">
         <div class="day-number">
           <div class="n">4</div>
@@ -907,7 +1041,7 @@
     </div>
 
     <!-- GIORNO 5 -->
-    <div class="day-card" onclick="toggle(this)">
+    <div class="day-card">
       <div class="day-header">
         <div class="day-number">
           <div class="n">5</div>
@@ -1001,7 +1135,7 @@
     </div>
 
     <!-- GIORNO 6 -->
-    <div class="day-card" onclick="toggle(this)">
+    <div class="day-card">
       <div class="day-header">
         <div class="day-number">
           <div class="n">6</div>
@@ -1087,7 +1221,7 @@
     </div>
 
     <!-- GIORNO 7 -->
-    <div class="day-card" onclick="toggle(this)">
+    <div class="day-card">
       <div class="day-header">
         <div class="day-number special">
           <div class="n">7</div>
@@ -1162,7 +1296,7 @@
     </div>
 
     <!-- GIORNO 8 -->
-    <div class="day-card" onclick="toggle(this)">
+    <div class="day-card">
       <div class="day-header">
         <div class="day-number gold" style="background:var(--gold);">
           <div class="n">8</div>
@@ -1248,7 +1382,7 @@
     </div>
 
     <!-- GIORNO 9 -->
-    <div class="day-card" onclick="toggle(this)">
+    <div class="day-card">
       <div class="day-header">
         <div class="day-number last">
           <div class="n">9</div>
@@ -1339,7 +1473,9 @@
     </div>
 
   </div><!-- end days -->
+  </div><!-- end itinerario-section -->
 
+  <div id="info-section" style="display:none">
   <!-- PRACTICAL INFO -->
   <div style="margin-top:50px;">
     <div class="section-title">Informazioni Pratiche</div>
@@ -1468,19 +1604,93 @@
     <div class="tl-tip" style="margin-top:14px;">💡 Per i bambini di 7 e 9 anni: a Londra i minori di 11 anni viaggiano <b>gratis</b> sulla maggior parte di bus e metro se accompagnati da un adulto con Oyster/contactless valido — non serve comprare loro una card!</div>
   </div>
 
+  </div><!-- end info-section -->
+
+  <div id="mappa-section" style="display:none">
+    <div class="coming-soon">
+      <span class="coming-soon-icon">🗺️</span>
+      <h3>Mappa</h3>
+      <p>La mappa interattiva dei luoghi sarà disponibile prossimamente.</p>
+    </div>
+  </div>
+
+  <div id="budget-section" style="display:none">
+    <div class="coming-soon">
+      <span class="coming-soon-icon">💰</span>
+      <h3>Budget</h3>
+      <p>Il tracker delle spese sarà disponibile prossimamente.</p>
+    </div>
+  </div>
+
 </main>
 
-<footer>
-  <b>🇬🇧 Londra Family Trip</b> · 9 giorni · 8 notti · K Hotel Kensington<br>
-  <span style="margin-top:8px;display:block;">Buon viaggio! Have a brilliant time! 🎩</span>
-</footer>
+<nav class="bottom-nav" id="bottomNav">
+  <div class="nav-item active" data-section="itinerario">
+    <span class="nav-icon">📅</span>
+    <span class="nav-label">Giorni</span>
+  </div>
+  <div class="nav-item" data-section="mappa">
+    <span class="nav-icon">🗺️</span>
+    <span class="nav-label">Mappa</span>
+  </div>
+  <div class="nav-item" data-section="budget">
+    <span class="nav-icon">💰</span>
+    <span class="nav-label">Budget</span>
+  </div>
+  <div class="nav-item" data-section="info">
+    <span class="nav-icon">ℹ️</span>
+    <span class="nav-label">Info</span>
+  </div>
+</nav>
 
 <script>
-  function toggle(card) {
-    card.classList.toggle('open');
+  const DAYS = [
+    { n: 1, date: '29/7' }, { n: 2, date: '30/7' }, { n: 3, date: '31/7' },
+    { n: 4, date: '1/8'  }, { n: 5, date: '2/8'  }, { n: 6, date: '3/8'  },
+    { n: 7, date: '4/8'  }, { n: 8, date: '5/8'  }, { n: 9, date: '6/8'  },
+  ];
+
+  const cards = document.querySelectorAll('.day-card');
+  const tabsEl = document.getElementById('dayTabs');
+
+  // Build day tabs
+  DAYS.forEach((d, i) => {
+    const tab = document.createElement('div');
+    tab.className = 'day-tab';
+    tab.innerHTML = `<span class="day-tab-num">${d.n}</span><span class="day-tab-date">${d.date}</span>`;
+    tab.addEventListener('click', () => selectDay(i));
+    tabsEl.appendChild(tab);
+  });
+
+  function selectDay(idx) {
+    cards.forEach((c, i) => c.classList.toggle('active', i === idx));
+    document.querySelectorAll('.day-tab').forEach((t, i) => t.classList.toggle('active', i === idx));
+    const activeTab = tabsEl.querySelector('.day-tab.active');
+    if (activeTab) activeTab.scrollIntoView({ inline: 'center', behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-  // Open day 1 by default
-  document.querySelector('.day-card').classList.add('open');
+
+  // Auto-select today if within trip, else day 0
+  const tripStart = new Date(2026, 6, 29);
+  const today = new Date(); today.setHours(0,0,0,0);
+  const diff = Math.round((today - tripStart) / 86400000);
+  selectDay(diff >= 0 && diff < 9 ? diff : 0);
+
+  // Bottom nav section switching
+  const sections = ['itinerario', 'mappa', 'budget', 'info'];
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const sec = item.dataset.section;
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      item.classList.add('active');
+      sections.forEach(s => {
+        const el = document.getElementById(s + '-section');
+        if (el) el.style.display = s === sec ? '' : 'none';
+      });
+      const dayTabsWrapper = document.getElementById('dayTabs');
+      dayTabsWrapper.style.display = sec === 'itinerario' ? '' : 'none';
+    });
+  });
 </script>
 
 <script>
