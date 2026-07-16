@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Londra 2025 — Il Nostro Viaggio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #C8102E;
+    --blue: #012169;
+    --gold: #C5A028;
+    --cream: #FAF7F2;
+    --ink: #1A1A1A;
+    --muted: #6B6B6B;
+    --light: #F0EDE8;
+    --white: #FFFFFF;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--blue);
+    color: white;
+    padding: 60px 40px 50px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    border: 2px solid rgba(255,255,255,0.08);
+    border-radius: 50%;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: -40px;
+    width: 200px; height: 200px;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 50%;
+  }
+
+  .header-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 8vw, 80px);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -1px;
+    margin-bottom: 6px;
+  }
+
+  header h1 span {
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  .header-sub {
+    font-size: 15px;
+    color: rgba(255,255,255,0.6);
+    margin-top: 16px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .header-sub b {
+    color: white;
+    font-weight: 500;
+  }
+
+  .union-jack {
+    position: absolute;
+    right: 40px;
+    top: 40px;
+    font-size: 60px;
+    opacity: 0.15;
+  }
+
+  /* FLIGHT BANNER */
+  .flight-banner {
+    background: var(--red);
+    color: white;
+    padding: 18px 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .flight-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+  }
+
+  .flight-item .route {
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1px;
+  }
+
+  .flight-separator {
+    color: rgba(255,255,255,0.3);
+    margin: 0 8px;
+  }
+
+  .plane-icon { font-size: 18px; }
+
+  /* MAIN LAYOUT */
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 50px 24px 80px;
+  }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  /* INFO CARDS */
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin: 30px 0 50px;
+  }
+
+  .info-card {
+    background: white;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 4px;
+    padding: 20px;
+    position: relative;
+  }
+
+  .info-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--blue);
+    border-radius: 4px 0 0 4px;
+  }
+
+  .info-card .label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .info-card .value {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--blue);
+  }
+
+  .info-card .sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* DAY CARDS */
+  .days-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .day-card {
+    background: white;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    transition: box-shadow 0.2s ease;
+    animation: slideUp 0.4s ease both;
+  }
+
+  .day-card:hover {
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .day-card:nth-child(1) { animation-delay: 0.05s; }
+  .day-card:nth-child(2) { animation-delay: 0.10s; }
+  .day-card:nth-child(3) { animation-delay: 0.15s; }
+  .day-card:nth-child(4) { animation-delay: 0.20s; }
+  .day-card:nth-child(5) { animation-delay: 0.25s; }
+  .day-card:nth-child(6) { animation-delay: 0.30s; }
+  .day-card:nth-child(7) { animation-delay: 0.35s; }
+  .day-card:nth-child(8) { animation-delay: 0.40s; }
+  .day-card:nth-child(9) { animation-delay: 0.45s; }
+
+  .day-header {
+    display: flex;
+    align-items: stretch;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .day-number {
+    background: var(--blue);
+    color: white;
+    width: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 20px 10px;
+  }
+
+  .day-number .n {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    line-height: 1;
+  }
+
+  .day-number .d {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-top: 4px;
+  }
+
+  .day-number.special { background: var(--red); }
+  .day-number.gold { background: var(--gold); }
+  .day-number.last { background: #444; }
+
+  .day-title-block {
+    flex: 1;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .day-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+
+  .day-subtitle {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .day-badges {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+
+  .badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 20px;
+    border: 1px solid rgba(0,0,0,0.15);
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .badge.red { background: #FEE; border-color: var(--red); color: var(--red); }
+  .badge.blue { background: #EEF2FF; border-color: var(--blue); color: var(--blue); }
+  .badge.gold { background: #FFF8E7; border-color: var(--gold); color: #8B6914; }
+
+  .chevron {
+    font-size: 18px;
+    color: var(--muted);
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+    margin-left: 10px;
+  }
+
+  .day-card.open .chevron { transform: rotate(180deg); }
+
+  /* DAY BODY */
+  .day-body {
+    display: none;
+    padding: 0 20px 24px 90px;
+    border-top: 1px solid rgba(0,0,0,0.06);
+  }
+
+  .day-card.open .day-body { display: block; }
+
+  /* TIMELINE */
+  .timeline {
+    list-style: none;
+    position: relative;
+    padding-top: 20px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 24px; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--blue), transparent);
+  }
+
+  .tl-item {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+
+  .tl-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--blue);
+    flex-shrink: 0;
+    margin-top: 6px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .tl-dot.red { background: var(--red); }
+  .tl-dot.gold { background: var(--gold); }
+  .tl-dot.star { background: white; border: 2px solid var(--blue); }
+
+  .tl-time {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    min-width: 48px;
+    padding-top: 4px;
+    flex-shrink: 0;
+  }
+
+  .tl-content {}
+
+  .tl-name {
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--ink);
+  }
+
+  .tl-detail {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+    line-height: 1.5;
+  }
+
+  .tl-tip {
+    font-size: 11px;
+    color: #8B6914;
+    background: #FFF8E7;
+    border-left: 2px solid var(--gold);
+    padding: 4px 8px;
+    margin-top: 6px;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .tl-alert {
+    font-size: 11px;
+    color: #b91c1c;
+    background: #FFF0F0;
+    border-left: 2px solid var(--red);
+    padding: 4px 8px;
+    margin-top: 6px;
+    border-radius: 0 4px 4px 0;
+  }
+
+  /* ZONE TAG */
+  .zone-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    background: var(--light);
+    padding: 4px 10px;
+    border-radius: 20px;
+    color: var(--muted);
+    margin-bottom: 14px;
+    margin-top: 14px;
+  }
+
+  /* TIPS BOX */
+  .tips-box {
+    background: #EEF2FF;
+    border: 1px solid rgba(1,33,105,0.15);
+    border-radius: 6px;
+    padding: 16px;
+    margin-top: 16px;
+  }
+
+  .tips-box h4 {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 10px;
+  }
+
+  .tips-box ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .tips-box ul li {
+    font-size: 12px;
+    color: #2D3A6B;
+    display: flex;
+    gap: 8px;
+  }
+
+  .tips-box ul li::before {
+    content: '→';
+    color: var(--blue);
+    flex-shrink: 0;
+  }
+
+  /* LEGEND */
+  .legend {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 20px 0;
+    margin-bottom: 30px;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .legend-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--blue);
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    padding: 30px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+
+  footer b { color: white; }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    header { padding: 40px 20px; }
+    .flight-banner { padding: 14px 20px; }
+    main { padding: 30px 16px 60px; }
+    .day-body { padding-left: 16px; }
+    .timeline::before { display: none; }
+    .day-number { width: 56px; }
+    .day-number .n { font-size: 22px; }
+    .union-jack { font-size: 40px; right: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="union-jack">🇬🇧</div>
+  <p class="header-tag">Itinerario Famiglia · 29 Luglio – 6 Agosto 2025 · 9 giorni · 8 notti</p>
+  <h1>Londra<br><span>2025</span></h1>
+  <div class="header-sub">
+    <span>🏨 <b>K Hotel Kensington</b></span>
+    <span>👨‍👩‍👧‍👦 2 adulti + 2 bambini (7 e 9 anni)</span>
+  </div>
+</header>
+
+<div class="flight-banner">
+  <span class="plane-icon">✈️</span>
+  <div class="flight-item">
+    <span style="opacity:0.7;font-size:11px;">ANDATA</span>
+    <span class="route">MXP → LGW</span>
+    <span>10:30 – 11:30</span>
+  </div>
+  <span class="flight-separator">|</span>
+  <div class="flight-item">
+    <span style="opacity:0.7;font-size:11px;">RITORNO</span>
+    <span class="route">LGW → MXP</span>
+    <span>15:45 – 18:45</span>
+  </div>
+  <span class="flight-separator">|</span>
+  <span style="font-size:12px; opacity:0.8;">🚌 Transfer Gatwick ↔ Kensington ~60–75 min</span>
+</div>
+
+<main>
+
+  <div class="section-title">Legenda</div>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div> Attrazione / visita</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div> Evento prenotato / fisso</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div> Pranzo / cena consigliata</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#ccc; border:1px solid #999"></div> Transfer / logistica</div>
+  </div>
+
+  <div class="section-title">Il Programma</div>
+  <p style="font-size:13px;color:var(--muted);margin-bottom:28px;">Clicca su ogni giorno per espandere i dettagli.</p>
+
+  <div class="days-wrapper">
+
+    <!-- GIORNO 1 -->
+    <div class="day-card" onclick="toggle(this)">
+      <div class="day-header">
+        <div class="day-number">
+          <div class="n">1</div>
+          <div class="d">29 LUG</div>
+        </div>
+        <div class="day-title-block">
+          <div>
+            <div class="day-title">Arrivo a Londra 🛬</div>
+            <div class="day-subtitle">Martedì 29 Luglio · Kensington • South Kensington</div>
+            <div class="day-badges">
+              <span class="badge red">Volo MXP→LGW 10:30</span>
+              <span class="badge">Zona hotel</span>
+            </div>
+          </div>
+          <div class="chevron">▾</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="zone-tag">📍 Kensington / South Kensington</div>
+        <div class="tips-box" style="margin-bottom:16px;">
+          <h4>🚇 Trasporti del giorno</h4>
+          <ul>
+            <li><b>Gatwick → Hotel:</b> Gatwick Express o Southern Rail fino a London Victoria → cambio Circle o District line → Gloucester Road (poche fermate). Poi 5 min a piedi fino all'hotel in Courtfield Gardens.</li>
+            <li><b>Hotel → Natural History Museum:</b> 10 min a piedi. Uscite dall'hotel, destra su Gloucester Road, poi destra su Cromwell Road. Il museo è sulla destra.</li>
+            <li><b>Natural History Museum → Hotel:</b> stesso percorso a piedi, 10 min.</li>
+          </ul>
+        </div>
+        <ul class="timeline">
+          <li class="tl-item">
+            <div class="tl-dot star"></div>
+            <div class="tl-time">10:30</div>
+            <div class="tl-content">
+              <div class="tl-name">Partenza da Malpensa</div>
+              <div class="tl-detail">Volo MXP → LGW. Arrivo previsto 11:30 ora locale.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot star"></div>
+            <div class="tl-time">12:30</div>
+            <div class="tl-content">
+              <div class="tl-name">Transfer Gatwick → Hotel</div>
+              <div class="tl-detail">Circa 60–75 min. Opzioni: Gatwick Express fino a Victoria, poi taxi/Uber; oppure transfer privato diretto.</div>
+              <div class="tl-tip">💡 Con bambini e bagagli, vale la pena prenotare un transfer privato porta a porta.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot star"></div>
+            <div class="tl-time">14:00</div>
+            <div class="tl-content">
+              <div class="tl-name">Check-in K Hotel Kensington</div>
+              <div class="tl-detail">Deposito bagagli se la stanza non è ancora pronta. Check-in standard ore 14.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-time">15:30</div>
+            <div class="tl-content">
+              <div class="tl-name">Natural History Museum 🦕</div>
+              <div class="tl-detail">A 5 minuti a piedi dall'hotel! Ingresso gratuito. Ideale per smaltire il jet-lag con i bambini: dinosauri, balena blu, mammiferi. Non serve tutto il museo oggi.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot gold"></div>
+            <div class="tl-time">18:30</div>
+            <div class="tl-content">
+              <div class="tl-name">Cena a South Kensington</div>
+              <div class="tl-detail">Tante opzioni in zona: pasti leggeri in stile pub inglese o ristoranti italiani in Old Brompton Road. Prima serata tranquilla per recuperare le energie.</div>
+            </div>
+          </li>
+        </ul>
+        <div class="tips-box">
+          <h4>Note del giorno</h4>
+          <ul>
+            <li>Non organizzare nulla di "lontano" oggi: il transfer + check-in mangia metà pomeriggio</li>
+            <li>Il Natural History Museum è letteralmente sotto casa: perfetto per un ingresso morbido</li>
+            <li>Acquistare l'Oyster Card o abilitare contactless appena in hotel</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- GIORNO 2 -->
+    <div class="day-card" onclick="toggle(this)">
+      <div class="day-header">
+        <div class="day-number">
+          <div class="n">2</div>
+          <div class="d">30 LUG</div>
+        </div>
+        <div class="day-title-block">
+          <div>
+            <div class="day-title">Hyde Park, Notting Hill & Portobello</div>
+            <div class="day-subtitle">Mercoledì 30 Luglio · West London • A piedi e tube</div>
+            <div class="day-badges">
+              <span class="badge blue">Museo Scienza</span>
+              <span class="badge">Notting Hill</span>
+            </div>
+          </div>
+          <div class="chevron">▾</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="zone-tag">📍 South Kensington → Notting Hill</div>
+        <div class="tips-box" style="margin-bottom:16px;">
+          <h4>🚇 Trasporti del giorno</h4>
+          <ul>
+            <li><b>Hotel → Science Museum:</b> 5 min a piedi. Uscite dall'hotel, destra su Gloucester Road, poi sinistra su Cromwell Road e subito destra su Exhibition Road. Il museo è sulla sinistra.</li>
+            <li><b>Science Museum → Hyde Park:</b> 15 min a piedi verso nord lungo Exhibition Road fino all'ingresso di Kensington Gardens.</li>
+            <li><b>Hyde Park → Notting Hill:</b> 20 min a piedi verso nord-ovest, oppure tube: South Kensington → Notting Hill Gate (linea Circle/District, 2 fermate).</li>
+            <li><b>Notting Hill → Hotel:</b> 20 min a piedi, oppure tube: Notting Hill Gate → Gloucester Road (linea Circle/District, 2 fermate).</li>
+          </ul>
+        </div>
+        <ul class="timeline">
+          <li class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-time">10:15</div>
+            <div class="tl-content">
+              <div class="tl-name">Science Museum 🚀</div>
+              <div class="tl-detail">A 2 minuti dall'hotel. Gratis. Spazio, aeroplani, tecnologia: i bambini impazziscono. Dedicare 2–3 ore.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot gold"></div>
+            <div class="tl-time">13:00</div>
+            <div class="tl-content">
+              <div class="tl-name">Pranzo in zona Exhibition Road</div>
+              <div class="tl-detail">Tante opzioni vicino ai musei, anche fast casual adatte ai bimbi.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-time">14:30</div>
+            <div class="tl-content">
+              <div class="tl-name">Passeggiata a Hyde Park 🌳</div>
+              <div class="tl-detail">Entrata da Kensington Gardens. Kensington Palace, il lago Serpentine, giochi all'aperto. Bellissimo per i bambini.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-time">16:30</div>
+            <div class="tl-content">
+              <div class="tl-name">Notting Hill & Portobello Road 🌈</div>
+              <div class="tl-detail">15 min a piedi da Hyde Park. Casette colorate, atmosfera unica. Gelaterie, negozietti. Ideale per una passeggiata pomeridiana.</div>
+              <div class="tl-tip">💡 Il mercato di Portobello è più vivace il sabato mattina, ma la strada è bella in qualsiasi giorno.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot gold"></div>
+            <div class="tl-time">19:30</div>
+            <div class="tl-content">
+              <div class="tl-name">Cena a Notting Hill</div>
+              <div class="tl-detail">Zona piena di ristoranti carini. Poi rientro in hotel a piedi o tube (stazione Notting Hill Gate, linea Circle/District).</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- GIORNO 3 -->
+    <div class="day-card" onclick="toggle(this)">
+      <div class="day-header">
+        <div class="day-number special">
+          <div class="n">3</div>
+          <div class="d">31 LUG</div>
+        </div>
+        <div class="day-title-block">
+          <div>
+            <div class="day-title">⚡ Harry Potter Warner Studios</div>
+            <div class="day-subtitle">Giovedì 31 Luglio · Watford • Tour prenotato ore 10:30</div>
+            <div class="day-badges">
+              <span class="badge red">Prenotato 10:30</span>
+              <span class="badge">Giornata dedicata</span>
+            </div>
+          </div>
+          <div class="chevron">▾</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="zone-tag">📍 Warner Bros. Studio — Leavesden, Watford</div>
+        <div class="tips-box" style="margin-bottom:16px;">
+          <h4>🚇 Trasporti del giorno</h4>
+          <ul>
+            <li><b>Hotel → Warner Bros. Studios:</b> Gloucester Road (Piccadilly line) → King's Cross St Pancras (cambio Victoria line) → Euston → treno Overground per Watford Junction (~20 min) → shuttle bus gratuito per gli Studios. Totale ~1h15. Partire entro le 08:30.</li>
+            <li><b>Warner Bros. Studios → Hotel:</b> Percorso inverso. Shuttle → Watford Junction → treno per Euston → tube Victoria line → Green Park → Piccadilly line → Gloucester Road.</li>
+          </ul>
+        </div>
+        <ul class="timeline">
+          <li class="tl-item">
+            <div class="tl-dot star"></div>
+            <div class="tl-time">08:30</div>
+            <div class="tl-content">
+              <div class="tl-name">Partenza dall'hotel</div>
+              <div class="tl-detail">Tube fino a Euston (Piccadilly line → Victoria line), poi treno diretto per Watford Junction (~20 min). Dallo studio c'è uno shuttle bus dal 2024.</div>
+              <div class="tl-alert">⏰ Con ingresso alle 10:30, partire entro le 8:30. Il percorso totale è circa 1h15.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot red"></div>
+            <div class="tl-time">10:30</div>
+            <div class="tl-content">
+              <div class="tl-name">Warner Bros. Studio Tour 🧙</div>
+              <div class="tl-detail">La Grande Sala, Diagon Alley, i set originali, i costumi, la Butterbeer! Dedicare almeno 4–5 ore.</div>
+              <div class="tl-tip">💡 Il negozio souvenir è ENORME — mettete un budget in tasca ai bambini o vi rovinano! 😄</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot gold"></div>
+            <div class="tl-time">13:00</div>
+            <div class="tl-content">
+              <div class="tl-name">Pranzo allo studio</div>
+              <div class="tl-detail">C'è un backlot café con la Butterbeer e cibo decente. Prezzi da parco turistico, ma fa parte dell'esperienza.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot star"></div>
+            <div class="tl-time">16:30</div>
+            <div class="tl-content">
+              <div class="tl-name">Rientro a Londra</div>
+              <div class="tl-detail">Shuttle → Watford Junction → treno per Euston → tube per hotel.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot gold"></div>
+            <div class="tl-time">19:30</div>
+            <div class="tl-content">
+              <div class="tl-name">Cena tranquilla in zona Kensington</div>
+              <div class="tl-detail">Serata rilassata dopo una giornata piena di magia.</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- GIORNO 4 -->
+    <div class="day-card" onclick="toggle(this)">
+      <div class="day-header">
+        <div class="day-number">
+          <div class="n">4</div>
+          <div class="d">1 AGO</div>
+        </div>
+        <div class="day-title-block">
+          <div>
+            <div class="day-title">Westminster, Big Ben & Buckingham</div>
+            <div class="day-subtitle">Venerdì 1 Agosto · Royal London • South Bank</div>
+            <div class="day-badges">
+              <span class="badge blue">Cambio della guardia</span>
+              <span class="badge">Westminster Abbey</span>
+              <span class="badge">London Eye</span>
+              <span class="badge">National Gallery</span>
+            </div>
+          </div>
+          <div class="chevron">▾</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="zone-tag">📍 Westminster → South Bank → Trafalgar Square</div>
+        <div class="tips-box" style="margin-bottom:16px;">
+          <h4>🚇 Trasporti del giorno</h4>
+          <ul>
+            <li><b>Hotel → Buckingham Palace:</b> Gloucester Road (Circle/District line) → Victoria (2 fermate, ~8 min) → 15 min a piedi lungo Buckingham Palace Road/The Mall.</li>
+            <li><b>National Gallery/Trafalgar Square → Hotel:</b> Charing Cross (Circle/District line, direzione Wimbledon) → Gloucester Road (3 fermate, ~10 min).</li>
+          </ul>
+        </div>
+        <ul class="timeline">
+          <li class="tl-item">
+            <div class="tl-dot red"></div>
+            <div class="tl-time">10:00</div>
+            <div class="tl-content">
+              <div class="tl-name">Cambio della Guardia 💂 — Buckingham Palace</div>
+              <div class="tl-detail">La cerimonia si svolge a giorni alterni (~45 min). Arrivare almeno 30 min prima per un buon posto. Verificare il calendario ufficiale.</div>
+              <div class="tl-alert">⏰ Controllare sul sito della Royal Family le date esatte prima di partire.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-time">11:30</div>
+            <div class="tl-content">
+              <div class="tl-name">St. James's Park 🦢</div>
+              <div class="tl-detail">Il parco più bello di Londra. Pelicani, vista sul London Eye e sul Palazzo. Perfetto per i bimbi.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-time">12:30</div>
+            <div class="tl-content">
+              <div class="tl-name">Westminster & Big Ben 🕰️</div>
+              <div class="tl-detail">Houses of Parliament, Westminster Bridge per la foto iconica con Big Ben. Westminster Abbey (ingresso a pagamento, ma vale la pena).</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot gold"></div>
+            <div class="tl-time">14:00</div>
+            <div class="tl-content">
+              <div class="tl-name">Pranzo a South Bank</div>
+              <div class="tl-detail">Borough Market se aperto, oppure uno dei tanti locali sul Tamigi. Atmosfera bellissima.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-time">15:30</div>
+            <div class="tl-content">
+              <div class="tl-name">London Eye 🎡</div>
+              <div class="tl-detail">30 minuti di giro panoramico sul Tamigi. I bambini adorano. Prenotare online in anticipo.</div>
+              <div class="tl-tip">💡 Prenotate il primo slot del pomeriggio per evitare le code peggiori.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-time">17:00</div>
+            <div class="tl-content">
+              <div class="tl-name">Trafalgar Square 🦁</div>
+              <div class="tl-detail">I leoni, le fontane, la colonna di Nelson. Foto di rito con i piccioni e i bambini arrampicati sui leoni!</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot blue" style="background:var(--blue)"></div>
+            <div class="tl-time">16:00</div>
+            <div class="tl-content">
+              <div class="tl-name">National Gallery 🖼️</div>
+              <div class="tl-detail">Ingresso gratuito, si trova esattamente di fronte a Trafalgar Square. Con i bambini puntate dritti alle sale dei Van Gogh, Monet e Botticelli — le più scenografiche. Bastano 45–60 min mirati.</div>
+              <div class="tl-tip">💡 Il venerdì la National Gallery è aperta fino alle 21:00 — avete tutto il tempo! Gli altri giorni chiude alle 18:00.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot gold"></div>
+            <div class="tl-time">18:45</div>
+            <div class="tl-content">
+              <div class="tl-name">Cena all'Osteria Locatelli 🍝</div>
+              <div class="tl-detail">Ristorante di Giorgio Locatelli all'interno della National Gallery, Trafalgar Square. Cucina italiana raffinata in un contesto unico — si cena circondati dall'arte. Perfetto dopo la visita alla galleria, senza nemmeno spostarsi!</div>
+              <div class="tl-tip">💡 Assicuratevi di avere la prenotazione confermata. Smart casual come dress code.</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- GIORNO 5 -->
+    <div class="day-card" onclick="toggle(this)">
+      <div class="day-header">
+        <div class="day-number">
+          <div class="n">5</div>
+          <div class="d">2 AGO</div>
+        </div>
+        <div class="day-title-block">
+          <div>
+            <div class="day-title">British Museum, Carnaby & Covent Garden</div>
+            <div class="day-subtitle">Sabato 2 Agosto · Central London • Cultura, shopping e cena rock</div>
+            <div class="day-badges">
+              <span class="badge blue">British Museum</span>
+              <span class="badge">Carnaby Street</span>
+              <span class="badge">Covent Garden</span>
+              <span class="badge">Piccadilly</span>
+              <span class="badge">LEGO Store</span>
+              <span class="badge gold">Hard Rock Café</span>
+            </div>
+          </div>
+          <div class="chevron">▾</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="zone-tag">📍 Bloomsbury → Soho → Covent Garden → Piccadilly → Leicester Square → Mayfair</div>
+        <div class="tips-box" style="margin-bottom:16px;">
+          <h4>🚇 Trasporti del giorno</h4>
+          <ul>
+            <li><b>Hotel → British Museum:</b> Gloucester Road (Piccadilly line) → Holborn (diretto, ~20 min) → 5 min a piedi. In alternativa District/Circle → Monument, cambio Central line → Holborn.</li>
+            <li><b>Hard Rock Café → Hotel:</b> Hyde Park Corner (Piccadilly line) → Gloucester Road (1 fermata, 2 min). Oppure a piedi in 15 min lungo Old Brompton Road.</li>
+          </ul>
+        </div>
+        <ul class="timeline">
+          <li class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-time">10:40</div>
+            <div class="tl-content">
+              <div class="tl-name">British Museum 🏛️</div>
+              <div class="tl-detail">Mummie egiziane, Stele di Rosetta, reperti greci… Ingresso gratuito. Dedicare 2–3 ore. Con bambini: puntare dritti all'Egitto e alla Grecia (più scenografici).</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot gold"></div>
+            <div class="tl-time">13:00</div>
+            <div class="tl-content">
+              <div class="tl-name">Pranzo a Bloomsbury</div>
+              <div class="tl-detail">Caffè del museo o tante opzioni in Museum Street e dintorni.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-time">14:30</div>
+            <div class="tl-content">
+              <div class="tl-name">Carnaby Street 🛍️</div>
+              <div class="tl-detail">20 minuti a piedi dal museo (o tube Central line). La strada più colorata di Londra: boutique, street style, decorazioni a tema. Perfetta per una passeggiata e qualche acquisto.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-time">15:30</div>
+            <div class="tl-content">
+              <div class="tl-name">Covent Garden 🎭</div>
+              <div class="tl-detail">10 minuti a piedi da Carnaby. Artisti di strada, mercato coperto, negozietti, gelaterie. I bambini adorano gli acrobati e i musicisti. Atmosfera unica.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-time">16:30</div>
+            <div class="tl-content">
+              <div class="tl-name">Piccadilly Circus 🎪</div>
+              <div class="tl-detail">10 minuti a piedi. Le iconiche insegne luminose, la statua di Eros, l'atmosfera caotica e vivacissima del cuore di Londra.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot red"></div>
+            <div class="tl-time">17:15</div>
+            <div class="tl-content">
+              <div class="tl-name">LEGO Store Leicester Square 🧱</div>
+              <div class="tl-detail">5 minuti a piedi da Piccadilly. Il più grande flagship store Lego d'Europa! Big Ben in Lego, sezione Harry Potter, stazione per le minifigure personalizzate. I bambini impazziranno.</div>
+              <div class="tl-tip">💡 Orario: 10–22. Perfetto nel tardo pomeriggio quando si è già scarichi di energia — qui si ricaricano!</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot gold"></div>
+            <div class="tl-time">19:00</div>
+            <div class="tl-content">
+              <div class="tl-name">Cena all'Hard Rock Café 🎸</div>
+              <div class="tl-detail">150 Old Park Lane — il primo Hard Rock Café della storia, aperto nel 1971! A 10 minuti a piedi da Leicester Square. Burger, costine, atmosfera rock con cimeli musicali ovunque. I bambini adorano guardarsi intorno e c'è anche il negozio souvenir all'uscita.</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- GIORNO 6 -->
+    <div class="day-card" onclick="toggle(this)">
+      <div class="day-header">
+        <div class="day-number">
+          <div class="n">6</div>
+          <div class="d">3 AGO</div>
+        </div>
+        <div class="day-title-block">
+          <div>
+            <div class="day-title">Tower of London, Tower Bridge & South Bank</div>
+            <div class="day-subtitle">Domenica 3 Agosto · East London • City of London</div>
+            <div class="day-badges">
+              <span class="badge blue">Tower of London</span>
+              <span class="badge">Tower Bridge</span>
+              <span class="badge">HMS Belfast</span>
+              <span class="badge gold">London Bridge Rooftop</span>
+            </div>
+          </div>
+          <div class="chevron">▾</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="zone-tag">📍 Tower Hill → South Bank → London Bridge</div>
+        <div class="tips-box" style="margin-bottom:16px;">
+          <h4>🚇 Trasporti del giorno</h4>
+          <ul>
+            <li><b>Hotel → Tower of London:</b> Gloucester Road (District line, direzione Upminster/Barking) → Tower Hill (diretto, ~30 min, 7 fermate) → 2 min a piedi.</li>
+            <li><b>London Bridge Rooftop → Hotel:</b> London Bridge (District/Circle line, direzione Wimbledon/Edgware Road) → Gloucester Road (5 fermate, ~18 min). Oppure Uber/taxi diretto ~25 min.</li>
+          </ul>
+        </div>
+        <ul class="timeline">
+          <li class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-time">09:00</div>
+            <div class="tl-content">
+              <div class="tl-name">Tower of London 🏰</div>
+              <div class="tl-detail">I Gioielli della Corona, i Ravens, i Beefeater! Arrivare presto per evitare le code. Dedicare 2–3 ore.</div>
+              <div class="tl-tip">💡 Il tour guidato dei Beefeater è incluso nel biglietto ed è fantastico, anche per i bambini (ironico e divertente).</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot gold"></div>
+            <div class="tl-time">12:30</div>
+            <div class="tl-content">
+              <div class="tl-name">Pausa a Potter's Fields Park 🌿</div>
+              <div class="tl-detail">Prato direttamente sul Tamigi, con vista frontale su Tower Bridge. Perfetto per uno snack veloce o street food dai chioschetti in zona. I bambini possono correre liberamente mentre voi riprendete fiato dopo la mattina.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-time">13:30</div>
+            <div class="tl-content">
+              <div class="tl-name">Tower Bridge 🌉</div>
+              <div class="tl-detail">Exhibition interna con il camminamento in vetro sul Tamigi. Vista mozzafiato. Controllate se il ponte si apre — uno spettacolo raro e gratuito da vedere.</div>
+              <div class="tl-tip">💡 Orari di apertura del ponte su towerbridgeapp.com — potete pianificare la visita per coincidere con un'apertura!</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-time">15:00</div>
+            <div class="tl-content">
+              <div class="tl-name">HMS Belfast ⚓</div>
+              <div class="tl-detail">Incrociatore della Seconda Guerra Mondiale ormeggiato sul Tamigi, a 10 minuti a piedi da Tower Bridge. 9 ponti da esplorare, cannoni, sala macchine, cabine originali. I bambini possono arrampicarsi, esplorare e giocare a fare i marinai. Circa 1h30.</div>
+              <div class="tl-tip">💡 Bambini sotto i 5 anni entrano gratis.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-time">17:00</div>
+            <div class="tl-content">
+              <div class="tl-name">Passeggiata sul South Bank 🚶</div>
+              <div class="tl-detail">15 minuti a piedi lungo il Tamigi fino a London Bridge. Artisti di strada, vista sul Tamigi, atmosfera serale bellissima d'estate.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot gold"></div>
+            <div class="tl-time">18:30</div>
+            <div class="tl-content">
+              <div class="tl-name">London Bridge Rooftop Bar — Aperitivo-Cena 🌇🍔</div>
+              <div class="tl-detail">Colechurch House, London Bridge Walk. Vista panoramica 360° su The Shard, Tower of London e London Eye. Burger, fries, cocktail e soft drink con il tramonto su Londra. Prendete un bel tavolo con vista e godetevelo con calma — non serve andare da nessun'altra parte per la cena!</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- GIORNO 7 -->
+    <div class="day-card" onclick="toggle(this)">
+      <div class="day-header">
+        <div class="day-number special">
+          <div class="n">7</div>
+          <div class="d">4 AGO</div>
+        </div>
+        <div class="day-title-block">
+          <div>
+            <div class="day-title">⭐ Madame Tussauds & Marylebone</div>
+            <div class="day-subtitle">Lunedì 4 Agosto · Marylebone • West End</div>
+            <div class="day-badges">
+              <span class="badge red">Prenotato ore 10</span>
+              <span class="badge">Oxford Street</span>
+              <span class="badge">Soho</span>
+            </div>
+          </div>
+          <div class="chevron">▾</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="zone-tag">📍 Marylebone → Oxford Street → Regent Street → Soho</div>
+        <div class="tips-box" style="margin-bottom:16px;">
+          <h4>🚇 Trasporti del giorno</h4>
+          <ul>
+            <li><b>Hotel → Madame Tussauds:</b> Gloucester Road (Piccadilly line) → Baker Street (diretto, ~12 min, 4 fermate) → 5 min a piedi su Marylebone Road.</li>
+            <li><b>Soho → Hotel:</b> Leicester Square o Piccadilly Circus (Piccadilly line) → Gloucester Road (diretto, 3-4 fermate, ~10 min).</li>
+          </ul>
+        </div>
+        <ul class="timeline">
+          <li class="tl-item">
+            <div class="tl-dot red"></div>
+            <div class="tl-time">10:00</div>
+            <div class="tl-content">
+              <div class="tl-name">Madame Tussauds 🎭</div>
+              <div class="tl-detail">Ingresso prenotato. I bambini adorano le statue dei personaggi Marvel, sportivi, regali. Circa 2 ore.</div>
+              <div class="tl-tip">💡 Arrivate esattamente all'orario prenotato per bypassare la fila all'ingresso.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot gold"></div>
+            <div class="tl-time">12:30</div>
+            <div class="tl-content">
+              <div class="tl-name">Pranzo a Marylebone</div>
+              <div class="tl-detail">Marylebone High Street è una delle strade più belle di Londra. Caffè, deli, ristoranti ottimi.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-time">14:00</div>
+            <div class="tl-content">
+              <div class="tl-name">Oxford Street & Regent Street 🛍️</div>
+              <div class="tl-detail">Shopping, grandi magazzini Selfridges, Liberty London, M&S. Ottimo per souvenir e shopping.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-time">16:30</div>
+            <div class="tl-content">
+              <div class="tl-name">Carnaby Street (bis) o Soho</div>
+              <div class="tl-detail">Se non ci siete stati abbastanza il giorno 5, esplorate Soho con le sue stradine, street art e vetrine.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot gold"></div>
+            <div class="tl-time">19:30</div>
+            <div class="tl-content">
+              <div class="tl-name">Cena a Soho 🍜</div>
+              <div class="tl-detail">Il quartiere più gastronomicamente vario di Londra: cinese, giapponese, italiano, fusion. Per tutti i gusti e tutte le età.</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- GIORNO 8 -->
+    <div class="day-card" onclick="toggle(this)">
+      <div class="day-header">
+        <div class="day-number gold" style="background:var(--gold);">
+          <div class="n">8</div>
+          <div class="d">5 AGO</div>
+        </div>
+        <div class="day-title-block">
+          <div>
+            <div class="day-title">Greenwich, Camden & Giornata Libera</div>
+            <div class="day-subtitle">Martedì 5 Agosto · South East → North London</div>
+            <div class="day-badges">
+              <span class="badge">Greenwich</span>
+              <span class="badge">Camden Market</span>
+              <span class="badge blue">SEA LIFE Aquarium</span>
+              <span class="badge gold">Ultima cena 🥂</span>
+            </div>
+          </div>
+          <div class="chevron">▾</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="zone-tag">📍 Greenwich → South Bank</div>
+        <div class="tips-box" style="margin-bottom:16px;">
+          <h4>🚇 Trasporti del giorno</h4>
+          <ul>
+            <li><b>Hotel → Greenwich:</b> A piedi fino a Gloucester Road → Piccadilly line → Embankment (6 fermate, ~15 min) → Uber Boat by Thames Clippers da Embankment Pier fino a Greenwich (~50 min sul Tamigi, bellissimo!).</li>
+            <li><b>Greenwich → SEA LIFE (South Bank):</b> Uber Boat da Greenwich Pier → Embankment o Waterloo Pier (~50 min), oppure DLR da Cutty Sark → Bank → Jubilee line → Waterloo (~30 min) → 10 min a piedi al County Hall.</li>
+            <li><b>SEA LIFE/South Bank → Hotel:</b> Waterloo (Jubilee line) → Green Park → Piccadilly line → Gloucester Road (~20 min). Oppure Uber/taxi diretto ~25 min.</li>
+          </ul>
+        </div>
+        <p style="font-size:12px;color:var(--muted);margin-bottom:16px;">Mattina flessibile tra Greenwich e Camden, poi tutti convergono al South Bank per il pomeriggio.</p>
+        <ul class="timeline">
+          <li class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-time">10:00</div>
+            <div class="tl-content">
+              <div class="tl-name">🅰 Opzione A — Greenwich</div>
+              <div class="tl-detail">Royal Observatory (Meridiano di Greenwich), Cutty Sark (veliero storico), mercato, parco con vista su Canary Wharf. Ottimo per bambini curiosi. Si raggiunge in Uber Boat!</div>
+              <div class="tl-tip">💡 L'Uber Boat by Thames Clippers è un'esperienza bellissima: si sale a Embankment e si arriva a Greenwich in 50 min sul Tamigi. Poi si risale verso il South Bank comodamente.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-time">10:00</div>
+            <div class="tl-content">
+              <div class="tl-name">🅱 Opzione B — Camden Market</div>
+              <div class="tl-detail">Il mercato più eccentrico di Londra: street food da tutto il mondo, stalls di vestiti, musica. I bambini più grandi adorano. Camden Lock, canal. Poi tube verso South Bank (Northern line → Waterloo).</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot gold"></div>
+            <div class="tl-time">13:00</div>
+            <div class="tl-content">
+              <div class="tl-name">Pranzo on location</div>
+              <div class="tl-detail">Sia Greenwich che Camden hanno street food eccellente. Mangiate prima di spostarvi verso il South Bank.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot blue" style="background:var(--blue)"></div>
+            <div class="tl-time">15:30</div>
+            <div class="tl-content">
+              <div class="tl-name">SEA LIFE London Aquarium 🐠🦈</div>
+              <div class="tl-detail">County Hall, South Bank — accanto al London Eye. Squali, meduse, pinguini, cavallucci marini e il tunnel sottomarino dove i pesci nuotano sopra le vostre teste. Circa 1h30 per visitarlo con calma. Perfetto per 7 e 9 anni.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-time">16:00</div>
+            <div class="tl-content">
+              <div class="tl-name">Passeggiata South Bank & London Eye 🎡</div>
+              <div class="tl-detail">Usciti dall'acquario siete già sul South Bank. Gelato, vista sul Tamigi, ultima passeggiata romantica lungo il fiume. Se i bimbi hanno ancora energie, i giochi di Jubilee Gardens sono proprio lì.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot gold"></div>
+            <div class="tl-time">19:00</div>
+            <div class="tl-content">
+              <div class="tl-name">Cena speciale — ultima sera intera 🥂</div>
+              <div class="tl-detail">Scegliete il vostro ristorante preferito della settimana o provate qualcosa di nuovo sul South Bank. Una serata speciale per celebrare 9 giorni fantastici a Londra!</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- GIORNO 9 -->
+    <div class="day-card" onclick="toggle(this)">
+      <div class="day-header">
+        <div class="day-number last">
+          <div class="n">9</div>
+          <div class="d">6 AGO</div>
+        </div>
+        <div class="day-title-block">
+          <div>
+            <div class="day-title">Mattina libera → Partenza ✈️</div>
+            <div class="day-subtitle">Mercoledì 6 Agosto · Kensington → Gatwick</div>
+            <div class="day-badges">
+              <span class="badge red">Volo LGW→MXP 15:45</span>
+              <span class="badge">Check-out</span>
+            </div>
+          </div>
+          <div class="chevron">▾</div>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="zone-tag">📍 Kensington → Gatwick Airport</div>
+        <div class="tips-box" style="margin-bottom:16px;">
+          <h4>🚇 Trasporti del giorno</h4>
+          <ul>
+            <li><b>Hotel → Gatwick:</b> A piedi fino a Gloucester Road → Circle o District line fino a London Victoria → Gatwick Express o Southern Rail diretto per Gatwick Airport (~30 min). Partire dall'hotel entro le 13:00 per essere a Gatwick entro le 14:15-14:30 con il volo alle 15:45.</li>
+            <li>In alternativa, taxi/Uber privato porta a porta dall'hotel a Gatwick (~60-75 min, più comodo con bagagli e bambini).</li>
+          </ul>
+        </div>
+        <ul class="timeline">
+          <li class="tl-item">
+            <div class="tl-dot gold"></div>
+            <div class="tl-time">08:00</div>
+            <div class="tl-content">
+              <div class="tl-name">Colazione in hotel</div>
+              <div class="tl-detail">Ultima colazione all'inglese! Godetevi i Full English Breakfast.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot star"></div>
+            <div class="tl-time">09:30</div>
+            <div class="tl-content">
+              <div class="tl-name">Check-out & deposito bagagli</div>
+              <div class="tl-detail">Lasciate i bagagli in hotel e fate un ultimo giro libero.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-time">10:00</div>
+            <div class="tl-content">
+              <div class="tl-name">Mattina libera a South Kensington 🌸</div>
+              <div class="tl-detail">Ultima passeggiata nel quartiere, gelato, shopping last minute a Old Brompton Road o Kings Road. Oppure tornate al museo preferito dai bimbi per l'ultimo saluto.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot gold"></div>
+            <div class="tl-time">12:30</div>
+            <div class="tl-content">
+              <div class="tl-name">Pranzo veloce in zona</div>
+              <div class="tl-detail">Pasto leggero prima di partire.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot red"></div>
+            <div class="tl-time">13:00</div>
+            <div class="tl-content">
+              <div class="tl-name">Partenza per Gatwick 🚌</div>
+              <div class="tl-detail">Ritiro bagagli in hotel e transfer verso Gatwick. Circa 60–75 min di viaggio.</div>
+              <div class="tl-alert">⏰ Con volo alle 15:45, partire dall'hotel entro le 13:00 per arrivare a Gatwick alle 14:15–14:30. Consigliato il check-in online.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <div class="tl-dot star"></div>
+            <div class="tl-time">15:45</div>
+            <div class="tl-content">
+              <div class="tl-name">Volo LGW → MXP ✈️</div>
+              <div class="tl-detail">Arrivo a Milano Malpensa 18:45. Londra, ci vediamo presto! 🇬🇧❤️</div>
+            </div>
+          </li>
+        </ul>
+        <div class="tips-box">
+          <h4>Checklist partenza</h4>
+          <ul>
+            <li>Ricaricate l'Oyster Card → tenete il credito avanzato come ricordo</li>
+            <li>Acquisti duty-free a Gatwick dopo i controlli sicurezza</li>
+            <li>Convalidate ricevute per eventuali rimborsi IVA</li>
+            <li>Foto di gruppo finale davanti all'hotel!</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end days -->
+
+  <!-- PRACTICAL INFO -->
+  <div style="margin-top:50px;">
+    <div class="section-title">Informazioni Pratiche</div>
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="label">Trasporti</div>
+        <div class="value">Oyster Card</div>
+        <div class="sub">Acquistate all'arrivo. Vale tube, bus e treni TfL. Contactless funziona uguale.</div>
+      </div>
+      <div class="info-card" style="--accent: var(--red);">
+        <div class="label">Hotel</div>
+        <div class="value">K Hotel</div>
+        <div class="sub">Kensington · 5 min dal Science Museum, 10 min dal Natural History Museum</div>
+      </div>
+      <div class="info-card">
+        <div class="label">Budget orientativo</div>
+        <div class="value">~£50–80/gg</div>
+        <div class="sub">Musei quasi tutti gratuiti! Spesa principale: Tower of London, London Eye, Warner Studios.</div>
+      </div>
+      <div class="info-card">
+        <div class="label">Meteo</div>
+        <div class="value">Sempre ombrello</div>
+        <div class="sub">Londra è imprevedibile. Strati su strati e impermeabile leggero per tutti.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRENOTAZIONI DA FARE -->
+  <div style="margin-top:30px;background:white;border:1px solid rgba(0,0,0,0.08);border-radius:8px;padding:28px;">
+    <div class="section-title" style="margin-bottom:12px;">Da Prenotare Prima di Partire</div>
+    <ul style="list-style:none;display:flex;flex-direction:column;gap:12px;">
+
+      <li style="display:flex;gap:12px;font-size:13px;align-items:flex-start;">
+        <span style="color:var(--red);font-size:16px;">✓</span>
+        <span><b>Warner Bros. Studio Tour</b> (Giorno 3) — già prenotato ore 10:30 ✅<br><a href="https://www.wbstudiotour.co.uk" target="_blank" style="color:var(--blue);">wbstudiotour.co.uk</a></span>
+      </li>
+
+      <li style="display:flex;gap:12px;font-size:13px;align-items:flex-start;">
+        <span style="color:var(--red);font-size:16px;">✓</span>
+        <span><b>Madame Tussauds</b> (Giorno 7) — già prenotato ore 10 ✅<br><a href="https://www.madametussauds.com/london/" target="_blank" style="color:var(--blue);">madametussauds.com/london</a></span>
+      </li>
+
+      <li style="display:flex;gap:12px;font-size:13px;align-items:flex-start;">
+        <span style="color:var(--red);font-size:16px;">✓</span>
+        <span><b>Osteria Locatelli</b> (Giorno 4) — cena ore 18:45, National Gallery, già confermata ✅</span>
+      </li>
+
+      <li style="display:flex;gap:12px;font-size:13px;align-items:flex-start;">
+        <span style="color:var(--red);font-size:16px;">✓</span>
+        <span><b>Natural History Museum</b> (Giorno 1) — prenotato ore 15:30 ✅<br><a href="https://www.nhm.ac.uk/visit.html" target="_blank" style="color:var(--blue);">nhm.ac.uk/visit</a></span>
+      </li>
+
+      <li style="display:flex;gap:12px;font-size:13px;align-items:flex-start;">
+        <span style="color:var(--red);font-size:16px;">✓</span>
+        <span><b>Science Museum</b> (Giorno 2) — prenotato ore 10:15 ✅<br><a href="https://www.sciencemuseum.org.uk/visit-us" target="_blank" style="color:var(--blue);">sciencemuseum.org.uk/visit-us</a></span>
+      </li>
+
+      <li style="display:flex;gap:12px;font-size:13px;align-items:flex-start;">
+        <span style="color:var(--blue);font-size:16px;">→</span>
+        <span><b>Cambio della Guardia</b> (Giorno 4) — verificare date sul calendario ufficiale (non tutti i giorni)<br><a href="https://changing-guard.com/london-dates.html" target="_blank" style="color:var(--blue);">changing-guard.com/london-dates</a></span>
+      </li>
+
+      <li style="display:flex;gap:12px;font-size:13px;align-items:flex-start;">
+        <span style="color:var(--blue);font-size:16px;">→</span>
+        <span><b>London Eye</b> (Giorno 4) — prenotare online, risparmio e salta-coda<br><a href="https://www.londoneye.com" target="_blank" style="color:var(--blue);">londoneye.com</a></span>
+      </li>
+
+      <li style="display:flex;gap:12px;font-size:13px;align-items:flex-start;">
+        <span style="color:var(--red);font-size:16px;">✓</span>
+        <span><b>British Museum</b> (Giorno 5) — prenotato ore 10:40 ✅<br><a href="https://www.britishmuseum.org/visit" target="_blank" style="color:var(--blue);">britishmuseum.org/visit</a></span>
+      </li>
+
+      <li style="display:flex;gap:12px;font-size:13px;align-items:flex-start;">
+        <span style="color:var(--red);font-size:16px;">✓</span>
+        <span><b>Hard Rock Café</b> (Giorno 5) — prenotato ore 19:00, Old Park Lane ✅<br><a href="https://www.hardrockcafe.com/location/london/" target="_blank" style="color:var(--blue);">hardrockcafe.com/location/london</a></span>
+      </li>
+
+      <li style="display:flex;gap:12px;font-size:13px;align-items:flex-start;">
+        <span style="color:var(--blue);font-size:16px;">→</span>
+        <span><b>Tower of London</b> (Giorno 6) — prenotare online, risparmio ~£5/persona<br><a href="https://www.hrp.org.uk/tower-of-london/" target="_blank" style="color:var(--blue);">hrp.org.uk/tower-of-london</a></span>
+      </li>
+
+      <li style="display:flex;gap:12px;font-size:13px;align-items:flex-start;">
+        <span style="color:var(--blue);font-size:16px;">→</span>
+        <span><b>Tower Bridge</b> (Giorno 6) — biglietti online consigliati<br><a href="https://www.towerbridge.org.uk" target="_blank" style="color:var(--blue);">towerbridge.org.uk</a></span>
+      </li>
+
+      <li style="display:flex;gap:12px;font-size:13px;align-items:flex-start;">
+        <span style="color:var(--blue);font-size:16px;">→</span>
+        <span><b>HMS Belfast</b> (Giorno 6) — prenotare online<br><a href="https://www.iwm.org.uk/visits/hms-belfast" target="_blank" style="color:var(--blue);">iwm.org.uk/visits/hms-belfast</a></span>
+      </li>
+
+      <li style="display:flex;gap:12px;font-size:13px;align-items:flex-start;">
+        <span style="color:var(--red);font-size:16px;">✓</span>
+        <span><b>London Bridge Rooftop Bar</b> (Giorno 6) — prenotato ore 18:30 ✅<br><a href="https://www.londonbridgerooftop.com" target="_blank" style="color:var(--blue);">londonbridgerooftop.com</a></span>
+      </li>
+
+      <li style="display:flex;gap:12px;font-size:13px;align-items:flex-start;">
+        <span style="color:var(--red);font-size:16px;">✓</span>
+        <span><b>SEA LIFE London Aquarium</b> (Giorno 8) — prenotato ore 15:30 ✅<br><a href="https://www.visitsealife.com/london/" target="_blank" style="color:var(--blue);">visitsealife.com/london</a></span>
+      </li>
+
+      <li style="display:flex;gap:12px;font-size:13px;align-items:flex-start;">
+        <span style="color:var(--blue);font-size:16px;">→</span>
+        <span><b>Transfer Gatwick ↔ Hotel</b> — consigliato transfer privato con bagagli e bambini</span>
+      </li>
+
+    </ul>
+  </div>
+
+  <!-- OYSTER CARD -->
+  <div style="margin-top:24px;background:white;border:1px solid rgba(0,0,0,0.08);border-radius:8px;padding:28px;">
+    <div class="section-title" style="margin-bottom:12px;">Oyster Card — Dove e Come</div>
+    <p style="font-size:13px;color:var(--ink);margin-bottom:12px;line-height:1.7;">
+      Non è strettamente necessaria: con una <b>carta contactless</b> (Visa/Mastercard) o lo smartphone (Apple/Google Pay) si paga automaticamente come con l'Oyster, stessa tariffa, senza dover comprare nulla. È l'opzione più comoda per chi viene dall'estero.
+    </p>
+    <p style="font-size:13px;color:var(--ink);margin-bottom:12px;line-height:1.7;">
+      Se preferite comunque la Oyster Card fisica (utile per i bambini che non hanno una carta propria), si acquista in questi punti:
+    </p>
+    <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+      <li style="font-size:13px;display:flex;gap:8px;"><span style="color:var(--blue);">→</span> <b>All'aeromobile/aeroporto:</b> a Gatwick non è in vendita direttamente, ma potete acquistarla appena in centro</li>
+      <li style="font-size:13px;display:flex;gap:8px;"><span style="color:var(--blue);">→</span> <b>In qualsiasi stazione della metro (Tube):</b> alle macchinette automatiche o alle biglietterie — la più vicina al volo sarà a Victoria Station, capolinea del Gatwick Express</li>
+      <li style="font-size:13px;display:flex;gap:8px;"><span style="color:var(--blue);">→</span> <b>Nelle edicole/negozi convenzionati</b> con il logo "Oyster" in giro per Londra (Newsagents)</li>
+      <li style="font-size:13px;display:flex;gap:8px;"><span style="color:var(--blue);">→</span> <b>Online in anticipo:</b> <a href="https://visitorshop.tfl.gov.uk" target="_blank" style="color:var(--blue);">visitorshop.tfl.gov.uk</a> — la Visitor Oyster Card vi arriva a casa prima della partenza</li>
+    </ul>
+    <div class="tl-tip" style="margin-top:14px;">💡 Per i bambini di 7 e 9 anni: a Londra i minori di 11 anni viaggiano <b>gratis</b> sulla maggior parte di bus e metro se accompagnati da un adulto con Oyster/contactless valido — non serve comprare loro una card!</div>
+  </div>
+
+</main>
+
+<footer>
+  <b>🇬🇧 Londra Family Trip</b> · 9 giorni · 8 notti · K Hotel Kensington<br>
+  <span style="margin-top:8px;display:block;">Buon viaggio! Have a brilliant time! 🎩</span>
+</footer>
+
+<script>
+  function toggle(card) {
+    card.classList.toggle('open');
+  }
+  // Open day 1 by default
+  document.querySelector('.day-card').classList.add('open');
+</script>
+
+</body>
+</html>
