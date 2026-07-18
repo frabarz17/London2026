@@ -523,7 +523,7 @@
 
   /* ===== APP SHELL ===== */
   body {
-    padding-top: 108px;
+    padding-top: 100px;
     padding-bottom: 70px;
   }
 
@@ -539,42 +539,26 @@
   .app-bar {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 14px 20px 8px;
-  }
-
-  .app-tag {
-    font-family: 'DM Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 2px;
+    justify-content: center;
+    padding: 13px 20px 10px;
   }
 
   .app-title {
     font-family: 'Playfair Display', serif;
-    font-size: 21px;
+    font-size: 22px;
     font-weight: 700;
     color: white;
     line-height: 1;
+    letter-spacing: -0.3px;
   }
 
   .app-title span { color: var(--gold); font-style: italic; }
 
-  .flight-mini {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    color: rgba(255,255,255,0.7);
-    text-align: right;
-    line-height: 1.7;
-  }
-
   /* Day tabs */
   .day-tabs {
     display: flex;
-    gap: 6px;
-    padding: 0 16px 10px;
+    gap: 5px;
+    padding: 0 14px 11px;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
@@ -586,19 +570,21 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 5px 13px;
-    border-radius: 20px;
-    background: rgba(255,255,255,0.1);
+    min-width: 46px;
+    padding: 7px 10px 6px;
+    border-radius: 5px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: transparent;
     cursor: pointer;
-    transition: background 0.15s;
+    transition: background 0.15s, border-color 0.15s;
     -webkit-tap-highlight-color: transparent;
     user-select: none;
   }
-  .day-tab.active { background: var(--gold); }
+  .day-tab.active { background: var(--gold); border-color: var(--gold); }
 
   .day-tab-num {
     font-family: 'DM Mono', monospace;
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 500;
     color: rgba(255,255,255,0.9);
     line-height: 1;
@@ -607,12 +593,13 @@
 
   .day-tab-date {
     font-family: 'DM Mono', monospace;
-    font-size: 8px;
+    font-size: 9px;
+    letter-spacing: 0.3px;
     color: rgba(255,255,255,0.5);
     line-height: 1;
-    margin-top: 2px;
+    margin-top: 3px;
   }
-  .day-tab.active .day-tab-date { color: rgba(1,33,105,0.65); }
+  .day-tab.active .day-tab-date { color: rgba(1,33,105,0.7); font-weight: 500; }
 
   /* Day cards: only active one visible, body always open */
   .day-card {
@@ -683,9 +670,17 @@
 
   .nav-item.active .nav-label { color: var(--blue); }
 
+  #mappa-section, #metro-section {
+    position: fixed;
+    top: 46px;
+    bottom: 70px;
+    left: 0; right: 0;
+    z-index: 100;
+  }
+
   .map-frame-wrapper {
-    height: calc(100vh - 178px);
     width: 100%;
+    height: 100%;
     overflow: hidden;
   }
   .map-frame-wrapper iframe { width: 100%; height: 100%; display: block; }
@@ -734,14 +729,7 @@
 
 <div class="app-header">
   <div class="app-bar">
-    <div>
-      <div class="app-tag">29 LUG – 6 AGO 2026 · Famiglia</div>
-      <div class="app-title">Londra <span>2026</span></div>
-    </div>
-    <div class="flight-mini">
-      <div>✈️ MXP→LGW · 10:30</div>
-      <div>🏨 K Hotel Kensington</div>
-    </div>
+    <div class="app-title">Londra <span>2026</span></div>
   </div>
   <div class="day-tabs" id="dayTabs"></div>
 </div>
