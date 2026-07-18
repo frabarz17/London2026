@@ -685,25 +685,18 @@
   }
   .map-frame-wrapper iframe { width: 100%; height: 100%; display: block; }
 
-  .metro-fallback {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    padding: 40px 24px;
-    color: var(--muted);
-    text-align: center;
+  .tube-map-wrapper {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    background: white;
+    touch-action: pan-x pan-y;
   }
-  .metro-open-btn {
-    padding: 12px 24px;
-    background: var(--blue);
-    color: white;
-    border-radius: 8px;
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 1px;
-    text-decoration: none;
+  .tube-map-img {
+    width: 1400px;
+    max-width: none;
+    display: block;
   }
 
   .tl-guide {
@@ -1652,15 +1645,12 @@
   </div>
 
   <div id="metro-section" style="display:none">
-    <div class="map-frame-wrapper">
-      <iframe
-        src="https://tfl.gov.uk/maps/track/tube"
-        frameborder="0" style="border:0;" allowfullscreen loading="lazy">
-      </iframe>
-    </div>
-    <div class="metro-fallback" id="metroFallback">
-      <p>La mappa TfL non si carica nell'app.</p>
-      <a href="https://tfl.gov.uk/maps/track/tube" target="_blank" rel="noopener" class="metro-open-btn">Apri mappa TfL</a>
+    <div class="tube-map-wrapper">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/1/13/London_Underground_Overground_DLR_Crossrail_map.svg"
+        alt="London Underground map"
+        class="tube-map-img"
+        loading="lazy">
     </div>
   </div>
 
@@ -1733,25 +1723,6 @@
       dayTabsWrapper.style.display = sec === 'itinerario' ? '' : 'none';
     });
   });
-
-  // TfL iframe fallback: if it fails to load, show the open-in-browser button
-  const metroIframe = document.querySelector('#metro-section iframe');
-  const metroFallback = document.getElementById('metroFallback');
-  if (metroIframe && metroFallback) {
-    metroIframe.addEventListener('load', () => {
-      try {
-        const doc = metroIframe.contentDocument || metroIframe.contentWindow.document;
-        if (!doc || doc.title === '') throw new Error();
-      } catch(e) {
-        metroIframe.style.display = 'none';
-        metroFallback.style.display = 'flex';
-      }
-    });
-    metroIframe.addEventListener('error', () => {
-      metroIframe.style.display = 'none';
-      metroFallback.style.display = 'flex';
-    });
-  }
 
   // "Guidami" buttons: auto-inject on timeline items matching known places
   const PLACE_GUIDE = {
