@@ -669,7 +669,9 @@
     user-select: none;
   }
 
-  .nav-icon { font-size: 20px; line-height: 1; }
+  .nav-icon { width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; color: var(--muted); }
+  .nav-item.active .nav-icon { color: var(--blue); }
+  .nav-icon svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
   .nav-label {
     font-family: 'DM Mono', monospace;
@@ -680,6 +682,52 @@
   }
 
   .nav-item.active .nav-label { color: var(--blue); }
+
+  .map-frame-wrapper {
+    height: calc(100vh - 178px);
+    width: 100%;
+    overflow: hidden;
+  }
+  .map-frame-wrapper iframe { width: 100%; height: 100%; display: block; }
+
+  .metro-fallback {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 40px 24px;
+    color: var(--muted);
+    text-align: center;
+  }
+  .metro-open-btn {
+    padding: 12px 24px;
+    background: var(--blue);
+    color: white;
+    border-radius: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-decoration: none;
+  }
+
+  .tl-guide {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 7px;
+    padding: 4px 11px;
+    border-radius: 20px;
+    border: 1.5px solid var(--blue);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    color: var(--blue);
+    text-decoration: none;
+    background: transparent;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .tl-guide svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 </style>
 </head>
 <body>
@@ -1607,18 +1655,24 @@
   </div><!-- end info-section -->
 
   <div id="mappa-section" style="display:none">
-    <div class="coming-soon">
-      <span class="coming-soon-icon">🗺️</span>
-      <h3>Mappa</h3>
-      <p>La mappa interattiva dei luoghi sarà disponibile prossimamente.</p>
+    <div class="map-frame-wrapper">
+      <iframe
+        src="https://www.google.com/maps/d/embed?mid=1AsySBlkKg_Z30b2gMPOh0E0Cr8s9pzk"
+        frameborder="0" style="border:0;" allowfullscreen loading="lazy">
+      </iframe>
     </div>
   </div>
 
-  <div id="budget-section" style="display:none">
-    <div class="coming-soon">
-      <span class="coming-soon-icon">💰</span>
-      <h3>Budget</h3>
-      <p>Il tracker delle spese sarà disponibile prossimamente.</p>
+  <div id="metro-section" style="display:none">
+    <div class="map-frame-wrapper">
+      <iframe
+        src="https://tfl.gov.uk/maps/track/tube"
+        frameborder="0" style="border:0;" allowfullscreen loading="lazy">
+      </iframe>
+    </div>
+    <div class="metro-fallback" id="metroFallback">
+      <p>La mappa TfL non si carica nell'app.</p>
+      <a href="https://tfl.gov.uk/maps/track/tube" target="_blank" rel="noopener" class="metro-open-btn">Apri mappa TfL</a>
     </div>
   </div>
 
@@ -1626,19 +1680,19 @@
 
 <nav class="bottom-nav" id="bottomNav">
   <div class="nav-item active" data-section="itinerario">
-    <span class="nav-icon">📅</span>
+    <span class="nav-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
     <span class="nav-label">Giorni</span>
   </div>
   <div class="nav-item" data-section="mappa">
-    <span class="nav-icon">🗺️</span>
+    <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
     <span class="nav-label">Mappa</span>
   </div>
-  <div class="nav-item" data-section="budget">
-    <span class="nav-icon">💰</span>
-    <span class="nav-label">Budget</span>
+  <div class="nav-item" data-section="metro">
+    <span class="nav-icon"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="4"/><line x1="5" y1="13" x2="19" y2="13"/><line x1="9" y1="17" x2="9" y2="17" stroke-width="3"/><line x1="15" y1="17" x2="15" y2="17" stroke-width="3"/><path d="M8 2h8" stroke-width="1.5"/></svg></span>
+    <span class="nav-label">Metro</span>
   </div>
   <div class="nav-item" data-section="info">
-    <span class="nav-icon">ℹ️</span>
+    <span class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="8" stroke-width="2.5"/><line x1="12" y1="12" x2="12" y2="16"/></svg></span>
     <span class="nav-label">Info</span>
   </div>
 </nav>
@@ -1677,7 +1731,7 @@
   selectDay(diff >= 0 && diff < 9 ? diff : 0);
 
   // Bottom nav section switching
-  const sections = ['itinerario', 'mappa', 'budget', 'info'];
+  const sections = ['itinerario', 'mappa', 'metro', 'info'];
   document.querySelectorAll('.nav-item').forEach(item => {
     item.addEventListener('click', () => {
       const sec = item.dataset.section;
@@ -1690,6 +1744,79 @@
       const dayTabsWrapper = document.getElementById('dayTabs');
       dayTabsWrapper.style.display = sec === 'itinerario' ? '' : 'none';
     });
+  });
+
+  // TfL iframe fallback: if it fails to load, show the open-in-browser button
+  const metroIframe = document.querySelector('#metro-section iframe');
+  const metroFallback = document.getElementById('metroFallback');
+  if (metroIframe && metroFallback) {
+    metroIframe.addEventListener('load', () => {
+      try {
+        const doc = metroIframe.contentDocument || metroIframe.contentWindow.document;
+        if (!doc || doc.title === '') throw new Error();
+      } catch(e) {
+        metroIframe.style.display = 'none';
+        metroFallback.style.display = 'flex';
+      }
+    });
+    metroIframe.addEventListener('error', () => {
+      metroIframe.style.display = 'none';
+      metroFallback.style.display = 'flex';
+    });
+  }
+
+  // "Guidami" buttons: auto-inject on timeline items matching known places
+  const PLACE_GUIDE = {
+    'Warner Bros. Studio Tour': 'Warner Bros. Studio Tour London',
+    'LEGO Store Leicester Square': 'LEGO Store, Leicester Square, London',
+    'Hard Rock Café': 'Hard Rock Cafe London',
+    'Osteria Locatelli': 'Osteria Locatelli, London',
+    'Madame Tussauds': 'Madame Tussauds London',
+    'SEA LIFE': 'SEA LIFE London Aquarium',
+    'HMS Belfast': 'HMS Belfast, London',
+    'Tower of London': 'Tower of London',
+    'Tower Bridge': 'Tower Bridge, London',
+    "Potter's Fields Park": 'Potters Fields Park, London',
+    'London Bridge Rooftop': 'London Bridge Rooftop Bar, London',
+    'Notting Hill & Portobello': 'Portobello Road Market, London',
+    'Notting Hill': 'Notting Hill, London',
+    'Passeggiata South Bank & London Eye': 'South Bank, London',
+    'Buckingham Palace': 'Buckingham Palace, London',
+    'Natural History Museum': 'Natural History Museum, London',
+    'Science Museum': 'Science Museum, London',
+    'British Museum': 'British Museum, London',
+    'National Gallery': 'National Gallery, London',
+    "St. James's Park": "St James's Park, London",
+    'Westminster & Big Ben': 'Westminster Bridge, London',
+    'Pranzo a South Bank': 'Borough Market, London',
+    'London Eye': 'London Eye, London',
+    'Trafalgar Square': 'Trafalgar Square, London',
+    'Piccadilly Circus': 'Piccadilly Circus, London',
+    'Covent Garden': 'Covent Garden, London',
+    'Carnaby Street': 'Carnaby Street, London',
+    'Hyde Park': 'Hyde Park, London',
+    'Camden Market': 'Camden Market, London',
+    'Oxford Street': 'Oxford Street, London',
+    'South Kensington': 'South Kensington, London',
+    'Marylebone': 'Marylebone High Street, London',
+    'Greenwich': 'Royal Observatory Greenwich, London',
+    'Cena a Soho': 'Soho, London',
+    'Partenza per Gatwick': 'London Gatwick Airport',
+  };
+
+  document.querySelectorAll('.tl-name').forEach(nameEl => {
+    const text = nameEl.textContent.trim();
+    const key = Object.keys(PLACE_GUIDE).find(k => text.includes(k));
+    if (!key) return;
+    const dest = encodeURIComponent(PLACE_GUIDE[key]);
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${dest}&travelmode=transit`;
+    const btn = document.createElement('a');
+    btn.href = url;
+    btn.target = '_blank';
+    btn.rel = 'noopener';
+    btn.className = 'tl-guide';
+    btn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Guidami`;
+    nameEl.closest('.tl-content').appendChild(btn);
   });
 </script>
 
