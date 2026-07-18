@@ -716,6 +716,26 @@
     -webkit-tap-highlight-color: transparent;
   }
   .tl-guide svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* Flight cards */
+  .flight-card { background: white; border: 1px solid rgba(0,0,0,0.08); border-left: 4px solid var(--blue); border-radius: 8px; padding: 20px; margin-bottom: 10px; }
+  .flight-card.ret { border-left-color: var(--red); }
+  .flight-iata { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; line-height: 1; color: var(--blue); }
+  .flight-card.ret .flight-iata { color: var(--red); }
+  .flight-terminal { font-family: 'DM Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); margin-top: 2px; }
+  .flight-hhmm { font-family: 'DM Mono', monospace; font-size: 20px; font-weight: 500; color: var(--ink); margin-top: 4px; }
+  .flight-btn { display: block; text-align: center; padding: 9px 6px; border-radius: 6px; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.3px; text-decoration: none; -webkit-tap-highlight-color: transparent; }
+  .flight-btn.solid { background: var(--blue); color: white; }
+  .flight-card.ret .flight-btn.solid { background: var(--red); }
+  .flight-btn.outline { border: 1.5px solid var(--blue); color: var(--blue); }
+  .flight-card.ret .flight-btn.outline { border-color: var(--red); color: var(--red); }
+  .ck-row { display: flex; align-items: flex-start; gap: 10px; font-size: 12px; margin-bottom: 9px; line-height: 1.45; color: var(--ink); }
+  .ck-row:last-child { margin-bottom: 0; }
+  .ck-badge { font-family: 'DM Mono', monospace; font-size: 9px; font-weight: 500; white-space: nowrap; padding: 2px 7px; border-radius: 3px; flex-shrink: 0; margin-top: 1px; }
+  .ck-blue { background: var(--blue); color: white; }
+  .ck-gold { background: var(--gold); color: var(--blue); }
+  .ck-red { background: var(--red); color: white; }
+  .ck-muted { background: var(--muted); color: white; }
 </style>
 </head>
 <body>
@@ -1505,8 +1525,96 @@
   </div><!-- end itinerario-section -->
 
   <div id="info-section" style="display:none">
+
+  <!-- VOLI -->
+  <div style="margin-top:24px;margin-bottom:30px;">
+    <div class="section-title">I Nostri Voli</div>
+
+    <!-- ANDATA -->
+    <div class="flight-card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;background:var(--blue);color:white;padding:3px 10px;border-radius:20px;">✈ Andata · 29 Lug</div>
+        <div style="font-family:'DM Mono',monospace;font-size:13px;color:var(--muted);letter-spacing:1px;">EZY8304</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+        <div style="flex:1;">
+          <div class="flight-iata">MXP</div>
+          <div class="flight-terminal">Terminal 2</div>
+          <div class="flight-hhmm">10:30</div>
+        </div>
+        <div style="flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:6px;padding:0 4px;">
+          <span style="font-size:16px;">✈️</span>
+          <div style="font-family:'DM Mono',monospace;font-size:8px;color:var(--muted);text-align:center;line-height:1.3;">~2h<br>easyJet</div>
+        </div>
+        <div style="flex:1;text-align:right;">
+          <div class="flight-iata">LGW</div>
+          <div class="flight-terminal">Terminal Nord</div>
+          <div class="flight-hhmm">11:30</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;">
+        <a href="https://www.flightradar24.com/data/flights/ezy8304" target="_blank" rel="noopener" class="flight-btn solid" style="flex:1.2;">Traccia volo</a>
+        <a href="https://www.flightaware.com/live/flight/EZY8304" target="_blank" rel="noopener" class="flight-btn outline" style="flex:1;">FlightAware</a>
+        <a href="https://www.easyjet.com/it/check-in" target="_blank" rel="noopener" class="flight-btn outline" style="flex:1;">Check-in</a>
+      </div>
+    </div>
+
+    <!-- Checklist Andata -->
+    <div style="background:var(--light);border-radius:8px;padding:16px 18px;margin-bottom:24px;">
+      <div style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:var(--ink);margin-bottom:12px;">🧳 Checklist andata — con bagagli da imbarcare</div>
+      <div class="ck-row"><span class="ck-badge ck-blue">Adesso</span>Check-in online aperto! Fate subito il check-in su EasyJet app e scegliete i posti per stare tutti vicini</div>
+      <div class="ck-row"><span class="ck-badge ck-blue">D-1</span>Scaricate la carta d'imbarco su Apple Wallet o app EasyJet. Risparmio di tempo in aeroporto</div>
+      <div class="ck-row"><span class="ck-badge ck-gold">08:00</span>Essere a MXP Terminal 2 — almeno 2h30 prima con bambini e valigie</div>
+      <div class="ck-row"><span class="ck-badge ck-red">08:30</span>Check-in online chiude 2h prima della partenza — se non fatto, farsi in aeroporto</div>
+      <div class="ck-row"><span class="ck-badge ck-red">09:50</span>Bag drop chiude — 40 min prima. Tassativo, non oltre</div>
+      <div class="ck-row"><span class="ck-badge ck-red">10:00</span>Gate si chiude — 30 min prima · Buon volo! ✈</div>
+    </div>
+
+    <!-- RITORNO -->
+    <div class="flight-card ret">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;background:var(--red);color:white;padding:3px 10px;border-radius:20px;">✈ Ritorno · 6 Ago</div>
+        <div style="font-family:'DM Mono',monospace;font-size:13px;color:var(--muted);letter-spacing:1px;">EJU8149</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+        <div style="flex:1;">
+          <div class="flight-iata">LGW</div>
+          <div class="flight-terminal">Terminal Nord</div>
+          <div class="flight-hhmm">15:45</div>
+        </div>
+        <div style="flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:6px;padding:0 4px;">
+          <span style="font-size:16px;">✈️</span>
+          <div style="font-family:'DM Mono',monospace;font-size:8px;color:var(--muted);text-align:center;line-height:1.3;">~2h<br>easyJet</div>
+        </div>
+        <div style="flex:1;text-align:right;">
+          <div class="flight-iata">MXP</div>
+          <div class="flight-terminal">Terminal 2</div>
+          <div class="flight-hhmm">18:45</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;">
+        <a href="https://www.flightradar24.com/data/flights/eju8149" target="_blank" rel="noopener" class="flight-btn solid" style="flex:1.2;">Traccia volo</a>
+        <a href="https://www.flightaware.com/live/flight/EJU8149" target="_blank" rel="noopener" class="flight-btn outline" style="flex:1;">FlightAware</a>
+        <a href="https://www.easyjet.com/it/check-in" target="_blank" rel="noopener" class="flight-btn outline" style="flex:1;">Check-in</a>
+      </div>
+    </div>
+
+    <!-- Checklist Ritorno -->
+    <div style="background:var(--light);border-radius:8px;padding:16px 18px;">
+      <div style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:var(--ink);margin-bottom:12px;">🧳 Checklist ritorno — dall'hotel a LGW con bagagli</div>
+      <div class="ck-row"><span class="ck-badge ck-blue">11:00</span>Check-out hotel. Lasciate le valigie in reception e godetevi la mattina libera</div>
+      <div class="ck-row"><span class="ck-badge ck-gold">12:00</span>Ritirare i bagagli e partire verso Gatwick</div>
+      <div class="ck-row"><span class="ck-badge ck-muted">Opz. A</span><span><b>Taxi/Uber</b> (consigliato con bimbi+bagagli): porta a porta ~75 min, ca. £80–100. Partire alle 12:00</span></div>
+      <div class="ck-row"><span class="ck-badge ck-muted">Opz. B</span><span><b>Tube+Treno</b>: Gloucester Rd → Victoria (8 min) + Gatwick Express (30 min) + navetta Terminal Nord (10 min) = ~55 min. Partire alle 12:30</span></div>
+      <div class="ck-row"><span class="ck-badge ck-gold">13:30</span>Essere al LGW Terminal Nord — bag drop aperto</div>
+      <div class="ck-row"><span class="ck-badge ck-red">15:05</span>Bag drop chiude — 40 min prima. Non oltre</div>
+      <div class="ck-row"><span class="ck-badge ck-red">15:15</span>Gate si chiude — Arrivederci Londra! 🇬🇧</div>
+      <div class="tl-tip" style="margin-top:12px;">⚠️ Il Gatwick Express arriva al <b>Terminal Sud</b> — prendete la navetta gratuita (People Mover) per il <b>Terminal Nord</b>: ~10 min extra da calcolare nel viaggio.</div>
+    </div>
+  </div>
+
   <!-- PRACTICAL INFO -->
-  <div style="margin-top:50px;">
+  <div style="margin-top:30px;">
     <div class="section-title">Informazioni Pratiche</div>
     <div class="info-grid">
       <div class="info-card">
