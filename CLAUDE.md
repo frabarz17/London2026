@@ -35,32 +35,42 @@ London2026/
 ## Struttura dell'app (index.html)
 
 ### Layout fisso
-- **`.app-header` (fixed top):** barra blu con titolo "Londra 2026", info volo compatte, e il selettore giorni scrollabile `.day-tabs`
+- **`.app-header` (fixed top):** barra blu con titolo "Londra 2026" centrato e selettore giorni scrollabile `.day-tabs`
 - **`<main>`:** contenuto delle sezioni (vedi sotto)
-- **`.bottom-nav` (fixed bottom):** 4 tab di navigazione
+- **`.bottom-nav` (fixed bottom):** 4 tab di navigazione con icone SVG monocromatiche
+
+### Header
+- Solo titolo centrato — niente date range, niente info volo/hotel
+- `.day-tabs` con tab rettangolari (border-radius 5px), bordo bianco traslucido, numeri grandi, active = oro pieno
+- `.day-tabs` viene nascosto via JS quando si naviga su sezioni non-itinerario
 
 ### Sezioni principali (gestite da JS)
 Ogni sezione è un `div` con `id="<nome>-section"`, visibile/nascosta via `style.display`:
 
 | ID sezione | Tab | Stato |
 |---|---|---|
-| `itinerario-section` | 📅 Giorni | ✅ Implementata |
-| `info-section` | ℹ️ Info | ✅ Contenuto presente (Oyster, prenotazioni) |
-| `mappa-section` | 🗺️ Mappa | 🔲 Placeholder "coming soon" |
-| `budget-section` | 💰 Budget | 🔲 Placeholder "coming soon" |
+| `itinerario-section` | Giorni | ✅ 9 day card con bottoni Guidami |
+| `mappa-section` | Mappa | ✅ Google My Maps embed fullscreen |
+| `metro-section` | Metro | ✅ SVG tube map Wikipedia scrollabile |
+| `info-section` | Info | ✅ Voli, prenotazioni, Oyster, info pratiche |
+
+Le sezioni `#mappa-section` e `#metro-section` usano `position: fixed; top: 46px; bottom: 70px` per riempire correttamente l'area senza i day-tabs.
 
 ### Day cards
 9 `.day-card` nell'ordine: giorni 1–9 (29 Lug → 6 Ago).
 - Di default nascosti (`display: none`)
-- Solo quello con classe `.active` è visibile (e il `.day-body` è sempre aperto)
+- Solo quello con classe `.active` è visibile
 - La selezione è gestita da JS con `selectDay(index)` (0-based)
 - Auto-selezione: se la data odierna è nel range del viaggio, seleziona il giorno corretto
+
+### Bottone "Guidami"
+Auto-iniettato via JS su tutti i `.tl-name` che matchano il dizionario `PLACE_GUIDE` (circa 35 luoghi fisici). Apre Google Maps con `destination=<place>&travelmode=transit`. Skip automatico di voli, transfer, hotel.
 
 ### Dati giorni (in JS)
 ```js
 const DAYS = [
   { n: 1, date: '29/7' }, // Arrivo a Londra
-  { n: 2, date: '30/7' }, // South Kensington (Science Museum, Hyde Park)
+  { n: 2, date: '30/7' }, // Science Museum, Hyde Park, Notting Hill
   { n: 3, date: '31/7' }, // Harry Potter Warner Studios (prenotato 10:30)
   { n: 4, date: '1/8'  }, // Westminster, Big Ben, London Eye, National Gallery
   { n: 5, date: '2/8'  }, // British Museum, Carnaby, Covent Garden, Hard Rock
@@ -70,6 +80,14 @@ const DAYS = [
   { n: 9, date: '6/8'  }, // Mattina libera → Partenza LGW→MXP 15:45
 ];
 ```
+
+## Voli
+
+- **Andata:** EZY8304 · MXP T2 10:30 → LGW Terminal Nord 11:30 · 29 Lug
+- **Ritorno:** EJU8149 · LGW Terminal Nord 15:45 → MXP T2 18:45 · 6 Ago
+- Compagnia: easyJet
+- Tracking: FlightRadar24 (`/data/flights/ezy8304` e `/data/flights/eju8149`)
+- Avviso importante: Gatwick Express arriva a Terminal Sud → prendere navetta People Mover per Terminal Nord
 
 ## Design system
 
@@ -88,6 +106,8 @@ const DAYS = [
 - `DM Sans` — corpo testo
 - `DM Mono` — etichette, codici, monospace UI
 
+**Icone bottom nav:** SVG inline monocromatici (grigio a riposo, blu attivo). Non usare emoji.
+
 **Icone nei timeline dot:**
 - `.tl-dot` default → attrazione/visita (blue)
 - `.tl-dot.red` → evento prenotato/fisso
@@ -104,15 +124,9 @@ Cache key: `londra2026-v1` — aggiornare la versione in `sw.js` se si modifican
 
 ```bash
 # Workflow standard
-git add <file>
+git add index.html
 git commit -m "descrizione"
 git push   # → Vercel auto-deploya
 ```
 
 `base-artifact/londra-itinerario.html` è solo un archivio — non va committato o toccato.
-
-## Funzionalità future pianificate (bottom nav)
-
-- **🗺️ Mappa:** mappa interattiva con i luoghi del viaggio (Google Maps embed o Leaflet)
-- **💰 Budget:** tracker spese giornaliero (localStorage per persistenza)
-- Entrambe attualmente mostrano un placeholder "coming soon"

@@ -9,7 +9,7 @@ Questo è un file statico unico (`index.html`). **Non introdurre framework, bund
 ## Prima di iniziare qualsiasi sessione
 
 1. Leggere `CLAUDE.md` per il contesto completo
-2. Leggere `index.html` per capire lo stato attuale (CSS in `<style>`, HTML, JS in `<script>`)
+2. Leggere le sezioni rilevanti di `index.html` prima di modificare
 3. Verificare lo stato del deploy: `git log --oneline -5`
 
 ## Come fare modifiche
@@ -17,7 +17,7 @@ Questo è un file statico unico (`index.html`). **Non introdurre framework, bund
 **Flusso standard:**
 1. Leggere la sezione rilevante di `index.html` prima di modificarla
 2. Fare le modifiche con Edit (preferito) o Write
-3. Verificare che la struttura HTML sia valida (nessun tag non chiuso)
+3. Verificare che la struttura HTML sia valida (nessun tag non chiuso, div bilanciati)
 4. `git add index.html && git commit -m "..." && git push`
 5. Vercel deploya in ~30 secondi automaticamente
 
@@ -30,24 +30,31 @@ Questo è un file statico unico (`index.html`). **Non introdurre framework, bund
 
 Il file è diviso in blocchi logici nell'ordine:
 1. `<head>` — meta tag, link font, link manifest
-2. `<style>` — tutto il CSS (variabili, componenti, app shell)
-3. `<body>` → `.app-header` — header fisso con `.day-tabs` (popolato da JS)
-4. `<body>` → `<main>` — sezioni: `#itinerario-section`, `#info-section`, `#mappa-section`, `#budget-section`
-5. `<body>` → `.bottom-nav` — navigazione fissa in basso
-6. `<script>` — logica app (day tabs, section switching, SW registration)
+2. `<style>` — tutto il CSS (variabili, componenti, app shell, flight cards, guidami)
+3. `<body>` → `.app-header` — header fisso con titolo centrato + `.day-tabs` (popolato da JS)
+4. `<body>` → `<main>` — sezioni: `#itinerario-section`, `#mappa-section`, `#metro-section`, `#info-section`
+5. `<body>` → `.bottom-nav` — 4 nav item con icone SVG inline
+6. `<script>` — logica app: day tabs, section switching, PLACE_GUIDE + Guidami injection, SW registration
 
 ## Aggiungere una nuova sezione al bottom nav
 
-1. Aggiungere il `div#<nome>-section` dentro `<main>` (come gli altri, con `style="display:none"`)
-2. Aggiungere il tab `.nav-item` nel `.bottom-nav` con `data-section="<nome>"`
+1. Aggiungere il `div#<nome>-section` dentro `<main>` (con `style="display:none"`)
+2. Aggiungere il tab `.nav-item` nel `.bottom-nav` con `data-section="<nome>"` e icona SVG inline
 3. Aggiungere `'<nome>'` all'array `sections` nel JS
 4. Nessun'altra modifica necessaria — il sistema di switching è generico
 
-## Aggiungere un giorno all'itinerario
+## Aggiungere luoghi con bottone "Guidami"
 
-1. Aggiungere un `<div class="day-card">` nel `<div class="days-wrapper">`
-2. Aggiungere `{ n: N, date: 'GG/M' }` all'array `DAYS` nel JS
-3. Aggiornare `tripStart` e il range `diff < N` in JS se cambiano le date
+Il dizionario `PLACE_GUIDE` nel JS mappa stringhe parziali del `.tl-name` a destinazioni Google Maps.
+Per aggiungere un luogo: aggiungere una entry `'Testo nel tl-name': 'Destinazione Google Maps'`.
+Mettere le chiavi più specifiche prima di quelle generiche (il `find` si ferma al primo match).
+
+## Sezioni mappa e metro
+
+- Usano `position: fixed; top: 46px; bottom: 70px; left: 0; right: 0; z-index: 100`
+- Se si cambia l'altezza dell'`.app-bar`, aggiornare il valore `top` di queste sezioni
+- La sezione metro mostra un `<img>` SVG (1400px width) in un container `overflow: auto`
+- La sezione mappa usa un `<iframe>` con la Google My Maps
 
 ## PWA — aggiornare il service worker
 
@@ -61,7 +68,8 @@ Se si aggiungono nuovi file da cachare:
 - Testi label → `font-family: 'DM Mono', monospace` con `letter-spacing`
 - Titoli → `font-family: 'Playfair Display', serif`
 - Corpo → `font-family: 'DM Sans', sans-serif`
-- Per nuovi componenti: seguire il pattern dei `.info-card`, `.tl-item`, `.tips-box`
+- Icone → SVG inline monocromatici, mai emoji nella nav
+- Per nuovi componenti: seguire il pattern dei `.info-card`, `.tl-item`, `.flight-card`
 
 ## Cosa NON fare
 
@@ -69,4 +77,5 @@ Se si aggiungono nuovi file da cachare:
 - Non aggiungere `onclick` inline sui `.day-card` (la navigazione è via `.day-tab`)
 - Non modificare il progetto GymBro in `/Users/francescobarzano/claude/GymBro/`
 - Non creare file separati per CSS o JS (tutto inline in `index.html`)
-- Non usare `vercel.json` per configurazioni complesse — è intenzionalmente minimale
+- Non usare emoji come icone nella bottom nav (usare SVG)
+- Non duplicare bottoni per la stessa funzione (es. due servizi di tracking → tenerne uno)

@@ -1,4 +1,4 @@
-# 🇬🇧 Londra 2026 — Il Nostro Viaggio
+# Londra 2026 — Il Nostro Viaggio
 
 App PWA per l'itinerario del viaggio di famiglia a Londra.
 
@@ -20,10 +20,10 @@ Funziona anche **offline** dopo la prima visita.
 
 ## Funzionalità
 
-- **📅 Giorni** — selettore orizzontale dei 9 giorni, vista del programma giornaliero completo
-- **ℹ️ Info** — informazioni pratiche, prenotazioni, Oyster Card
-- **🗺️ Mappa** *(prossimamente)*
-- **💰 Budget** *(prossimamente)*
+- **Giorni** — selettore orizzontale dei 9 giorni, programma giornaliero completo con bottone "Guidami" su ogni luogo (apre Google Maps in modalità transit)
+- **Mappa** — Google My Maps personale con i luoghi del viaggio (embed fullscreen)
+- **Metro** — mappa London Underground SVG (Wikipedia), scrollabile e zoomabile
+- **Info** — card voli con tracking FlightRadar24, checklist logistica andata/ritorno, informazioni pratiche, prenotazioni, Oyster Card
 
 ## Stack
 
@@ -34,7 +34,7 @@ HTML + CSS + JS puro · Nessuna dipendenza · Nessun build step · PWA
 Push su `main` → Vercel deploya automaticamente in ~30 secondi.
 
 ```bash
-git add .
+git add index.html
 git commit -m "messaggio"
 git push
 ```
