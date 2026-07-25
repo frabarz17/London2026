@@ -700,6 +700,8 @@
     display: block;
   }
 
+  .tl-booking-badge { display: inline-flex; align-items: center; gap: 4px; font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; background: var(--red); color: white; padding: 3px 10px; border-radius: 3px; margin-bottom: 6px; font-weight: 500; }
+
   .tl-guide {
     display: inline-flex;
     align-items: center;
@@ -837,9 +839,10 @@
             </div>
           </li>
           <li class="tl-item">
-            <div class="tl-dot"></div>
+            <div class="tl-dot red"></div>
             <div class="tl-time">15:30</div>
             <div class="tl-content">
+              <div class="tl-booking-badge">✓ Prenotato</div>
               <div class="tl-name">Natural History Museum 🦕</div>
               <div class="tl-detail">A 5 minuti a piedi dall'hotel! Ingresso gratuito. Ideale per smaltire il jet-lag con i bambini: dinosauri, balena blu, mammiferi. Non serve tutto il museo oggi.</div>
             </div>
@@ -896,9 +899,10 @@
         </div>
         <ul class="timeline">
           <li class="tl-item">
-            <div class="tl-dot"></div>
+            <div class="tl-dot red"></div>
             <div class="tl-time">10:15</div>
             <div class="tl-content">
+              <div class="tl-booking-badge">✓ Prenotato</div>
               <div class="tl-name">Science Museum 🚀</div>
               <div class="tl-detail">A 2 minuti dall'hotel. Gratis. Spazio, aeroplani, tecnologia: i bambini impazziscono. Dedicare 2–3 ore.</div>
             </div>
@@ -982,6 +986,7 @@
             <div class="tl-dot red"></div>
             <div class="tl-time">10:30</div>
             <div class="tl-content">
+              <div class="tl-booking-badge">✓ Prenotato</div>
               <div class="tl-name">Warner Bros. Studio Tour 🧙</div>
               <div class="tl-detail">La Grande Sala, Diagon Alley, i set originali, i costumi, la Butterbeer! Dedicare almeno 4–5 ore.</div>
               <div class="tl-tip">💡 Il negozio souvenir è ENORME — mettete un budget in tasca ai bambini o vi rovinano! 😄</div>
@@ -1097,18 +1102,20 @@
             </div>
           </li>
           <li class="tl-item">
-            <div class="tl-dot blue" style="background:var(--blue)"></div>
+            <div class="tl-dot red"></div>
             <div class="tl-time">16:00</div>
             <div class="tl-content">
+              <div class="tl-booking-badge">✓ Prenotato</div>
               <div class="tl-name">National Gallery 🖼️</div>
               <div class="tl-detail">Ingresso gratuito, si trova esattamente di fronte a Trafalgar Square. Con i bambini puntate dritti alle sale dei Van Gogh, Monet e Botticelli — le più scenografiche. Bastano 45–60 min mirati.</div>
               <div class="tl-tip">💡 Il venerdì la National Gallery è aperta fino alle 21:00 — avete tutto il tempo! Gli altri giorni chiude alle 18:00.</div>
             </div>
           </li>
           <li class="tl-item">
-            <div class="tl-dot gold"></div>
+            <div class="tl-dot red"></div>
             <div class="tl-time">18:45</div>
             <div class="tl-content">
+              <div class="tl-booking-badge">✓ Prenotato</div>
               <div class="tl-name">Cena all'Osteria Locatelli 🍝</div>
               <div class="tl-detail">Ristorante di Giorgio Locatelli all'interno della National Gallery, Trafalgar Square. Cucina italiana raffinata in un contesto unico — si cena circondati dall'arte. Perfetto dopo la visita alla galleria, senza nemmeno spostarsi!</div>
               <div class="tl-tip">💡 Assicuratevi di avere la prenotazione confermata. Smart casual come dress code.</div>
@@ -1152,9 +1159,10 @@
         </div>
         <ul class="timeline">
           <li class="tl-item">
-            <div class="tl-dot"></div>
+            <div class="tl-dot red"></div>
             <div class="tl-time">10:40</div>
             <div class="tl-content">
+              <div class="tl-booking-badge">✓ Prenotato</div>
               <div class="tl-name">British Museum 🏛️</div>
               <div class="tl-detail">Mummie egiziane, Stele di Rosetta, reperti greci… Ingresso gratuito. Dedicare 2–3 ore. Con bambini: puntare dritti all'Egitto e alla Grecia (più scenografici).</div>
             </div>
@@ -1210,9 +1218,10 @@
             </div>
           </li>
           <li class="tl-item">
-            <div class="tl-dot gold"></div>
+            <div class="tl-dot red"></div>
             <div class="tl-time">19:00</div>
             <div class="tl-content">
+              <div class="tl-booking-badge">✓ Prenotato</div>
               <div class="tl-name">Cena all'Hard Rock Café 🎸</div>
               <div class="tl-detail">150 Old Park Lane — il primo Hard Rock Café della storia, aperto nel 1971! A 10 minuti a piedi da Leicester Square. Burger, costine, atmosfera rock con cimeli musicali ovunque. I bambini adorano guardarsi intorno e c'è anche il negozio souvenir all'uscita.</div>
             </div>
@@ -1253,9 +1262,10 @@
         </div>
         <ul class="timeline">
           <li class="tl-item">
-            <div class="tl-dot"></div>
+            <div class="tl-dot red"></div>
             <div class="tl-time">09:00</div>
             <div class="tl-content">
+              <div class="tl-booking-badge">✓ Prenotato</div>
               <div class="tl-name">Tower of London 🏰</div>
               <div class="tl-detail">I Gioielli della Corona, i Ravens, i Beefeater! Arrivare presto per evitare le code. Dedicare 2–3 ore.</div>
               <div class="tl-tip">💡 Il tour guidato dei Beefeater è incluso nel biglietto ed è fantastico, anche per i bambini (ironico e divertente).</div>
@@ -1296,9 +1306,10 @@
             </div>
           </li>
           <li class="tl-item">
-            <div class="tl-dot gold"></div>
+            <div class="tl-dot red"></div>
             <div class="tl-time">18:30</div>
             <div class="tl-content">
+              <div class="tl-booking-badge">✓ Prenotato</div>
               <div class="tl-name">London Bridge Rooftop Bar — Aperitivo-Cena 🌇🍔</div>
               <div class="tl-detail">Colechurch House, London Bridge Walk. Vista panoramica 360° su The Shard, Tower of London e London Eye. Burger, fries, cocktail e soft drink con il tramonto su Londra. Prendete un bel tavolo con vista e godetevelo con calma — non serve andare da nessun'altra parte per la cena!</div>
             </div>
@@ -1341,6 +1352,7 @@
             <div class="tl-dot red"></div>
             <div class="tl-time">10:00</div>
             <div class="tl-content">
+              <div class="tl-booking-badge">✓ Prenotato</div>
               <div class="tl-name">Madame Tussauds 🎭</div>
               <div class="tl-detail">Ingresso prenotato. I bambini adorano le statue dei personaggi Marvel, sportivi, regali. Circa 2 ore.</div>
               <div class="tl-tip">💡 Arrivate esattamente all'orario prenotato per bypassare la fila all'ingresso.</div>
@@ -1441,9 +1453,10 @@
             </div>
           </li>
           <li class="tl-item">
-            <div class="tl-dot blue" style="background:var(--blue)"></div>
+            <div class="tl-dot red"></div>
             <div class="tl-time">15:30</div>
             <div class="tl-content">
+              <div class="tl-booking-badge">✓ Prenotato</div>
               <div class="tl-name">SEA LIFE London Aquarium 🐠🦈</div>
               <div class="tl-detail">County Hall, South Bank — accanto al London Eye. Squali, meduse, pinguini, cavallucci marini e il tunnel sottomarino dove i pesci nuotano sopra le vostre teste. Circa 1h30 per visitarlo con calma. Perfetto per 7 e 9 anni.</div>
             </div>
