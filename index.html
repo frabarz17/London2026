@@ -38,6 +38,13 @@
     overflow-x: hidden;
     overscroll-behavior: none;
   }
+  /* In PWA standalone il body cream viene usato da iOS per colorare le
+     safe zone native — rendiamo il body transparent e mettiamo cream su main
+     così l'html (white) controlla le safe zone */
+  @media (display-mode: standalone) {
+    body { background: transparent; }
+    main { background: var(--cream); }
+  }
 
   /* HEADER */
   header {
@@ -443,7 +450,7 @@
 
   /* TIPS BOX */
   .tips-box {
-    background: #EEF2FF;
+    background: white;
     border: 1px solid rgba(1,33,105,0.15);
     border-radius: 6px;
     padding: 16px;
@@ -642,7 +649,7 @@
     position: fixed;
     bottom: 0; left: 0; right: 0;
     z-index: 200;
-    background: #EEF2FF;
+    background: white;
     border-top: 1px solid var(--light);
     display: flex;
     padding-bottom: env(safe-area-inset-bottom, 0px);
