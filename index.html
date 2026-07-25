@@ -788,7 +788,7 @@
 <div class="app-header">
   <div class="app-bar">
     <div class="app-title">Londra <span>2026</span></div>
-    <div class="app-ver">v20</div>
+    <div class="app-ver">v21</div>
   </div>
   <div class="day-tabs" id="dayTabs"></div>
 </div>
@@ -2068,6 +2068,10 @@
       document.body.style.paddingTop = sec === 'itinerario'
         ? 'calc(100px + env(safe-area-inset-top, 0px))'
         : 'calc(46px + env(safe-area-inset-top, 0px))';
+      // Mappa/Metro hanno sezioni position:fixed → il body resterebbe non
+      // scrollabile, e su iOS un body non scrollabile fa posizionare il nav
+      // fixed più in alto (spazio crema sotto). Forziamo il body scrollabile.
+      document.body.style.minHeight = (sec === 'mappa' || sec === 'metro') ? '200vh' : '';
       // Riporta lo scroll in cima quando si cambia sezione
       window.scrollTo(0, 0);
     });
