@@ -655,13 +655,15 @@
     padding-bottom: env(safe-area-inset-bottom, 0px);
     box-shadow: 0 -2px 10px rgba(0,0,0,0.06);
   }
-  /* In modalità PWA standalone: padding per spingere le icone sopra l'home indicator,
-     background con hard-stop a 52px così la zona home indicator è trasparente →
-     nelle sezioni mappa/metro il contenuto riempie quella zona invece del bianco. */
+  /* In modalità PWA standalone env() può returnare 0 — hardcoda il padding */
   @media (display-mode: standalone) {
     .bottom-nav {
       padding-bottom: max(env(safe-area-inset-bottom, 34px), 34px);
-      background: linear-gradient(to bottom, white 52px, transparent 52px);
+    }
+    /* Solo su mappa/metro: la zona home indicator diventa trasparente
+       così il contenuto della mappa riempie quel gap invece del bianco */
+    .bottom-nav.nav-over-map {
+      background: linear-gradient(to bottom, white 55px, transparent 55px);
     }
   }
 
@@ -2076,6 +2078,8 @@
         : 'calc(46px + env(safe-area-inset-top, 0px))';
       // Blocca il rubber-banding iOS in mappa/metro (fixed sections)
       document.body.style.overflow = (sec === 'mappa' || sec === 'metro') ? 'hidden' : '';
+      // In standalone: nav trasparente in zona home indicator solo su mappa/metro
+      document.getElementById('bottomNav').classList.toggle('nav-over-map', sec === 'mappa' || sec === 'metro');
     });
   });
 
