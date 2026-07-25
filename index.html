@@ -2057,6 +2057,8 @@
       document.body.style.paddingTop = sec === 'itinerario'
         ? 'calc(100px + env(safe-area-inset-top, 0px))'
         : 'calc(46px + env(safe-area-inset-top, 0px))';
+      // Blocca il rubber-banding iOS in mappa/metro (fixed sections)
+      document.body.style.overflow = (sec === 'mappa' || sec === 'metro') ? 'hidden' : '';
     });
   });
 
