@@ -36,7 +36,8 @@
      fondo in modo identico in tutte le sezioni, senza dipendere dai quirk
      iOS di `position:fixed; bottom:0`. */
   body {
-    height: 100%;
+    height: 100vh;      /* fallback */
+    height: 100dvh;     /* iOS standalone: mappa lo schermo intero */
     background: var(--cream);
     color: var(--ink);
     font-family: 'DM Sans', sans-serif;
