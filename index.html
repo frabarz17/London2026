@@ -648,6 +648,12 @@
     padding-bottom: env(safe-area-inset-bottom, 0px);
     box-shadow: 0 -2px 10px rgba(0,0,0,0.06);
   }
+  /* In modalità PWA standalone env() può returnare 0 — hardcoda il padding */
+  @media (display-mode: standalone) {
+    .bottom-nav {
+      padding-bottom: max(env(safe-area-inset-bottom, 34px), 34px);
+    }
+  }
 
   .nav-item {
     flex: 1;
