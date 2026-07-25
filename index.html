@@ -26,26 +26,13 @@
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  html {
-    background: var(--cream);
-  }
-  /* App-shell a viewport fisso: body è una colonna flex che riempie
-     esattamente lo schermo. Header e nav sono flex item (non fixed), main
-     è l'unico contenitore scrollabile. Così il nav è sempre incollato in
-     fondo in modo identico in tutte le sezioni, senza dipendere dai quirk
-     iOS di `position:fixed; bottom:0`. */
   body {
-    position: fixed;
-    inset: 0;           /* pin a tutti i bordi del viewport = schermo intero su iOS standalone */
     background: var(--cream);
     color: var(--ink);
     font-family: 'DM Sans', sans-serif;
     font-weight: 300;
     line-height: 1.6;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    overscroll-behavior: none;
+    overflow-x: hidden;
   }
 
   /* HEADER */
@@ -153,18 +140,9 @@
 
   /* MAIN LAYOUT */
   main {
-    flex: 1 1 auto;
-    position: relative;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
-  }
-  /* Padding/centratura sui blocchi di contenuto scrollabile
-     (mappa/metro restano full-bleed) */
-  #itinerario-section, #info-section, #biglietti-section {
     max-width: 900px;
     margin: 0 auto;
-    padding: 16px 24px 28px;
+    padding: 50px 24px 80px;
   }
 
   /* SECTION TITLE */
@@ -536,7 +514,7 @@
 
   /* RESPONSIVE */
   @media (max-width: 600px) {
-    #itinerario-section, #info-section, #biglietti-section { padding: 14px 16px 24px; }
+    main { padding: 20px 16px 20px; }
     .day-body { padding-left: 16px; }
     .timeline::before { display: none; }
     .day-number { width: 56px; }
@@ -544,9 +522,15 @@
   }
 
   /* ===== APP SHELL ===== */
-  /* App header — flex item in cima; padding-top copre la safe area (notch) */
+  body {
+    padding-top: calc(100px + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* App header (fixed) */
   .app-header {
-    flex: 0 0 auto;
+    position: fixed;
+    top: 0; left: 0; right: 0;
     z-index: 200;
     background: var(--blue);
     box-shadow: 0 2px 12px rgba(0,0,0,0.25);
@@ -662,20 +646,14 @@
 
   /* Bottom nav */
   .bottom-nav {
-    flex: 0 0 auto;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
     z-index: 200;
     background: white;
     border-top: 1px solid var(--light);
     display: flex;
     padding-bottom: env(safe-area-inset-bottom, 0px);
     box-shadow: 0 -2px 10px rgba(0,0,0,0.06);
-  }
-  /* In modalità PWA standalone env() può returnare 0 — hardcoda il padding
-     per tenere le icone sopra l'home indicator */
-  @media (display-mode: standalone) {
-    .bottom-nav {
-      padding-bottom: max(env(safe-area-inset-bottom, 34px), 34px);
-    }
   }
 
   .nav-item {
@@ -704,28 +682,28 @@
 
   .nav-item.active .nav-label { color: var(--blue); }
 
-  /* Mappa/Metro riempiono full-bleed l'area di main (che è position:relative) */
   #mappa-section, #metro-section {
-    position: absolute;
-    inset: 0;
-    overscroll-behavior: none;
+    position: fixed;
+    top: calc(46px + env(safe-area-inset-top, 0px));
+    bottom: calc(70px + env(safe-area-inset-bottom, 0px));
+    left: 0; right: 0;
+    z-index: 100;
   }
 
   .map-frame-wrapper {
-    position: absolute;
-    inset: 0;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
   }
   .map-frame-wrapper iframe { width: 100%; height: 100%; display: block; }
 
   .tube-map-wrapper {
-    position: absolute;
-    inset: 0;
+    width: 100%;
+    height: 100%;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
     background: white;
     touch-action: pan-x pan-y;
-    overscroll-behavior: contain;
   }
   .tube-map-img {
     width: 1400px;
@@ -807,7 +785,7 @@
 <div class="app-header">
   <div class="app-bar">
     <div class="app-title">Londra <span>2026</span></div>
-    <div class="app-ver">v18</div>
+    <div class="app-ver">v19</div>
   </div>
   <div class="day-tabs" id="dayTabs"></div>
 </div>
@@ -2083,9 +2061,12 @@
       });
       const dayTabsWrapper = document.getElementById('dayTabs');
       dayTabsWrapper.style.display = sec === 'itinerario' ? '' : 'none';
-      // Reset scroll in cima quando si cambia sezione
-      const mainEl = document.querySelector('main');
-      if (mainEl) mainEl.scrollTop = 0;
+      // Compensa l'altezza header quando le day-tabs sono nascoste (no gap in alto)
+      document.body.style.paddingTop = sec === 'itinerario'
+        ? 'calc(100px + env(safe-area-inset-top, 0px))'
+        : 'calc(46px + env(safe-area-inset-top, 0px))';
+      // Riporta lo scroll in cima quando si cambia sezione
+      window.scrollTo(0, 0);
     });
   });
 
