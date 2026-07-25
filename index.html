@@ -523,8 +523,8 @@
 
   /* ===== APP SHELL ===== */
   body {
-    padding-top: 100px;
-    padding-bottom: 70px;
+    padding-top: calc(100px + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px));
   }
 
   /* App header (fixed) */
@@ -534,6 +534,7 @@
     z-index: 200;
     background: var(--blue);
     box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    padding-top: env(safe-area-inset-top, 0px);
   }
 
   .app-bar {
@@ -672,8 +673,8 @@
 
   #mappa-section, #metro-section {
     position: fixed;
-    top: 46px;
-    bottom: 70px;
+    top: calc(46px + env(safe-area-inset-top, 0px));
+    bottom: calc(70px + env(safe-area-inset-bottom, 0px));
     left: 0; right: 0;
     z-index: 100;
   }
