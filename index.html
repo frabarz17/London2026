@@ -660,11 +660,6 @@
     .bottom-nav {
       padding-bottom: max(env(safe-area-inset-bottom, 34px), 34px);
     }
-    /* Solo su mappa/metro: la zona home indicator diventa trasparente
-       così il contenuto della mappa riempie quel gap invece del bianco */
-    .bottom-nav.nav-over-map {
-      background: linear-gradient(to bottom, white 55px, transparent 55px);
-    }
   }
 
   .nav-item {
@@ -2078,8 +2073,6 @@
         : 'calc(46px + env(safe-area-inset-top, 0px))';
       // Blocca il rubber-banding iOS in mappa/metro (fixed sections)
       document.body.style.overflow = (sec === 'mappa' || sec === 'metro') ? 'hidden' : '';
-      // In standalone: nav trasparente in zona home indicator solo su mappa/metro
-      document.getElementById('bottomNav').classList.toggle('nav-over-map', sec === 'mappa' || sec === 'metro');
     });
   });
 
