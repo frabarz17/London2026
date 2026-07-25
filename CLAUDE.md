@@ -22,12 +22,22 @@ Pubblicata su GitHub e deployata su Vercel con auto-deploy su ogni push a `main`
 London2026/
 ├── index.html          ← tutta l'app (HTML + CSS + JS inline)
 ├── manifest.json       ← PWA manifest
-├── sw.js               ← service worker (cache offline)
+├── sw.js               ← service worker (cache offline) — versione corrente: londra2026-v2
 ├── vercel.json         ← config Vercel (cleanUrls, no trailing slash)
 ├── icons/
 │   ├── icon-180x180.png   ← apple-touch-icon (iPhone)
 │   ├── icon-192x192.png   ← PWA icon standard
 │   └── icon-512x512.png   ← splash screen
+├── Biglietti/
+│   ├── british-museum.pdf
+│   ├── historic-royal-palace.pdf   ← Tower of London
+│   ├── madame-tussauds.pdf
+│   ├── national-gallery.pdf
+│   ├── natural-history-museum.pdf
+│   ├── osteria-locatelli.pdf
+│   ├── science-museum.pdf
+│   ├── sealife-london.pdf
+│   └── warner-bros-harry-potter.pdf
 └── base-artifact/
     └── londra-itinerario.html  ← originale da cui tutto è partito (non toccare)
 ```
@@ -37,7 +47,7 @@ London2026/
 ### Layout fisso
 - **`.app-header` (fixed top):** barra blu con titolo "Londra 2026" centrato e selettore giorni scrollabile `.day-tabs`
 - **`<main>`:** contenuto delle sezioni (vedi sotto)
-- **`.bottom-nav` (fixed bottom):** 4 tab di navigazione con icone SVG monocromatiche
+- **`.bottom-nav` (fixed bottom):** 5 tab di navigazione con icone SVG monocromatiche
 
 ### Header
 - Solo titolo centrato — niente date range, niente info volo/hotel
@@ -47,14 +57,30 @@ London2026/
 ### Sezioni principali (gestite da JS)
 Ogni sezione è un `div` con `id="<nome>-section"`, visibile/nascosta via `style.display`:
 
-| ID sezione | Tab | Stato |
+| ID sezione | Tab | Contenuto |
 |---|---|---|
-| `itinerario-section` | Giorni | ✅ 9 day card con bottoni Guidami |
-| `mappa-section` | Mappa | ✅ Google My Maps embed fullscreen |
-| `metro-section` | Metro | ✅ SVG tube map Wikipedia scrollabile |
-| `info-section` | Info | ✅ Voli, prenotazioni, Oyster, info pratiche |
+| `itinerario-section` | Giorni | 9 day card con bottoni Guidami |
+| `mappa-section` | Mappa | Google My Maps embed fullscreen |
+| `metro-section` | Metro | SVG tube map Wikipedia scrollabile |
+| `info-section` | Info | Pill sub-nav con 4 voci (vedi sotto) |
+| `biglietti-section` | Biglietti | 9 card ticket PDF apribili |
 
 Le sezioni `#mappa-section` e `#metro-section` usano `position: fixed; top: 46px; bottom: 70px` per riempire correttamente l'area senza i day-tabs.
+
+### Info section — pill sub-nav interna
+La sezione Info ha una barra di pill orizzontale (`.info-pill-nav`) che mostra/nasconde 4 blocchi:
+
+| `data-sub` | ID div | Contenuto |
+|---|---|---|
+| `voli` | `#info-sub-voli` | Card voli EZY8304 + EJU8149, checklist andata/ritorno |
+| `supermercati` | `#info-sub-supermercati` | 3 market card con mappa OSM (Sainsbury's, Tesco Superstore, Tesco Express) |
+| `pratiche` | `#info-sub-pratiche` | Info grid (Oyster, Hotel, Budget, Meteo) |
+| `altro` | `#info-sub-altro` | Lista "Da Prenotare" + dettagli Oyster Card |
+
+Default attivo: `voli`. Il JS usa `.info-pill[data-sub]` e `getElementById('info-sub-' + sub)`.
+
+### Biglietti section
+9 `.ticket-card` ordinate per giorno. Le card con `.vip` hanno bordo rosso sinistro (prenotazioni fisse: Warner Bros, Tower of London, Madame Tussauds). Ogni card ha un link `Apri ↗` che punta a `/Biglietti/<filename>.pdf` in `target="_blank"`.
 
 ### Day cards
 9 `.day-card` nell'ordine: giorni 1–9 (29 Lug → 6 Ago).
@@ -64,7 +90,7 @@ Le sezioni `#mappa-section` e `#metro-section` usano `position: fixed; top: 46px
 - Auto-selezione: se la data odierna è nel range del viaggio, seleziona il giorno corretto
 
 ### Bottone "Guidami"
-Auto-iniettato via JS su tutti i `.tl-name` che matchano il dizionario `PLACE_GUIDE` (circa 35 luoghi fisici). Apre Google Maps con `destination=<place>&travelmode=transit`. Skip automatico di voli, transfer, hotel.
+Auto-iniettato via JS su tutti i `.tl-name` che matchano il dizionario `PLACE_GUIDE` (~36 luoghi fisici). Apre Google Maps con `destination=<place>&travelmode=transit`. Skip automatico di voli, transfer, hotel.
 
 ### Dati giorni (in JS)
 ```js
@@ -73,7 +99,7 @@ const DAYS = [
   { n: 2, date: '30/7' }, // Science Museum, Hyde Park, Notting Hill
   { n: 3, date: '31/7' }, // Harry Potter Warner Studios (prenotato 10:30)
   { n: 4, date: '1/8'  }, // Westminster, Big Ben, London Eye, National Gallery
-  { n: 5, date: '2/8'  }, // British Museum, Carnaby, Covent Garden, Hard Rock
+  { n: 5, date: '2/8'  }, // British Museum, Carnaby, Covent Garden, Hard Rock + Fortnum & Mason
   { n: 6, date: '3/8'  }, // Tower of London, Tower Bridge, HMS Belfast
   { n: 7, date: '4/8'  }, // Madame Tussauds (prenotato 10:00), Oxford Street
   { n: 8, date: '5/8'  }, // Greenwich o Camden + SEA LIFE Aquarium (prenotato 15:30)
@@ -118,15 +144,21 @@ const DAYS = [
 
 Installabile su iPhone via Safari → Condividi → "Aggiungi alla schermata Home".
 Il service worker (`sw.js`) fa cache di tutti gli asset per funzionamento offline.
-Cache key: `londra2026-v1` — aggiornare la versione in `sw.js` se si modificano asset critici.
+Cache key corrente: `londra2026-v2` — incrementare in `sw.js` se si aggiungono nuovi file critici.
+I 9 PDF dei biglietti sono cachati offline (`/Biglietti/*.pdf`).
 
 ## Git
 
 ```bash
 # Workflow standard
-git add index.html
+git add index.html sw.js
 git commit -m "descrizione"
 git push   # → Vercel auto-deploya
+
+# Se si aggiungono nuovi PDF o asset
+git add index.html sw.js Biglietti/
+git commit -m "descrizione"
+git push
 ```
 
 `base-artifact/londra-itinerario.html` è solo un archivio — non va committato o toccato.

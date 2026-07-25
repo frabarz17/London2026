@@ -18,7 +18,7 @@ Questo è un file statico unico (`index.html`). **Non introdurre framework, bund
 1. Leggere la sezione rilevante di `index.html` prima di modificarla
 2. Fare le modifiche con Edit (preferito) o Write
 3. Verificare che la struttura HTML sia valida (nessun tag non chiuso, div bilanciati)
-4. `git add index.html && git commit -m "..." && git push`
+4. `git add index.html sw.js && git commit -m "..." && git push`
 5. Vercel deploya in ~30 secondi automaticamente
 
 **Non serve:**
@@ -29,12 +29,22 @@ Questo è un file statico unico (`index.html`). **Non introdurre framework, bund
 ## Struttura index.html
 
 Il file è diviso in blocchi logici nell'ordine:
-1. `<head>` — meta tag, link font, link manifest
-2. `<style>` — tutto il CSS (variabili, componenti, app shell, flight cards, guidami)
+1. `<head>` — meta tag (`viewport-fit=cover` incluso), link font, link manifest
+2. `<style>` — tutto il CSS (variabili, componenti, app shell, flight cards, market cards, ticket cards, pill nav, guidami)
 3. `<body>` → `.app-header` — header fisso con titolo centrato + `.day-tabs` (popolato da JS)
-4. `<body>` → `<main>` — sezioni: `#itinerario-section`, `#mappa-section`, `#metro-section`, `#info-section`
-5. `<body>` → `.bottom-nav` — 4 nav item con icone SVG inline
-6. `<script>` — logica app: day tabs, section switching, PLACE_GUIDE + Guidami injection, SW registration
+4. `<body>` → `<main>` — sezioni: `#itinerario-section`, `#info-section`, `#mappa-section`, `#metro-section`, `#biglietti-section`
+5. `<body>` → `.bottom-nav` — 5 nav item con icone SVG inline
+6. `<script>` — logica app: day tabs, section switching, info pill sub-nav, PLACE_GUIDE + Guidami injection, SW registration
+
+## Bottom nav (5 tab)
+
+| `data-section` | Label | Icona |
+|---|---|---|
+| `itinerario` | Giorni | calendario |
+| `mappa` | Mappa | pin |
+| `metro` | Metro | treno |
+| `info` | Info | cerchio-i |
+| `biglietti` | Biglietti | tag/etichetta |
 
 ## Aggiungere una nuova sezione al bottom nav
 
@@ -42,6 +52,34 @@ Il file è diviso in blocchi logici nell'ordine:
 2. Aggiungere il tab `.nav-item` nel `.bottom-nav` con `data-section="<nome>"` e icona SVG inline
 3. Aggiungere `'<nome>'` all'array `sections` nel JS
 4. Nessun'altra modifica necessaria — il sistema di switching è generico
+
+## Info section — pill sub-nav
+
+La sezione Info contiene una pill-nav interna con 4 sotto-sezioni. Ogni pill ha `data-sub="<nome>"`, ogni blocco ha `id="info-sub-<nome>"`.
+
+**Struttura HTML:**
+```html
+<div class="info-pill-nav">
+  <button class="info-pill active" data-sub="voli">Voli</button>
+  <button class="info-pill" data-sub="supermercati">Supermercati</button>
+  <button class="info-pill" data-sub="pratiche">Info Pratiche</button>
+  <button class="info-pill" data-sub="altro">Altro</button>
+</div>
+<div id="info-sub-voli">...</div>
+<div id="info-sub-supermercati" style="display:none">...</div>
+<div id="info-sub-pratiche" style="display:none">...</div>
+<div id="info-sub-altro" style="display:none">...</div>
+```
+
+Il JS array `infoSubs` governa il toggle. Per aggiungere una quinta voce: aggiungere la pill + il div + la voce in `infoSubs`.
+
+## Biglietti section
+
+9 `.ticket-card` con link ai PDF in `/Biglietti/<nome>.pdf`. Le card con classe `.vip` hanno bordo rosso (prenotazioni fisse). Per aggiungere un biglietto:
+1. Aggiungere il PDF rinominato (senza spazi) nella cartella `Biglietti/`
+2. Aggiungere una `.ticket-card` in `#biglietti-section` con il link corretto
+3. Aggiungere il path del PDF all'array `ASSETS` in `sw.js`
+4. Incrementare la versione cache in `sw.js` (`londra2026-v3`, ecc.)
 
 ## Aggiungere luoghi con bottone "Guidami"
 
@@ -58,9 +96,13 @@ Mettere le chiavi più specifiche prima di quelle generiche (il `find` si ferma 
 
 ## PWA — aggiornare il service worker
 
-Se si aggiungono nuovi file da cachare:
+Versione corrente: `londra2026-v2`. Se si aggiungono nuovi file da cachare:
 1. Aggiungere il path all'array `ASSETS` in `sw.js`
-2. Aggiornare la versione cache: `const CACHE = 'londra2026-v2'` (incrementare)
+2. Incrementare la versione cache: `const CACHE = 'londra2026-v3'`
+
+## iPhone safe area
+
+Il meta viewport include `viewport-fit=cover`. Il `.bottom-nav` usa già `padding-bottom: env(safe-area-inset-bottom, 0px)`. Non rimuovere `viewport-fit=cover` dal meta — senza di esso il padding safe area vale 0.
 
 ## Design: cosa usare
 
@@ -69,7 +111,7 @@ Se si aggiungono nuovi file da cachare:
 - Titoli → `font-family: 'Playfair Display', serif`
 - Corpo → `font-family: 'DM Sans', sans-serif`
 - Icone → SVG inline monocromatici, mai emoji nella nav
-- Per nuovi componenti: seguire il pattern dei `.info-card`, `.tl-item`, `.flight-card`
+- Per nuovi componenti: seguire il pattern dei `.info-card`, `.tl-item`, `.flight-card`, `.ticket-card`, `.market-card`
 
 ## Cosa NON fare
 
@@ -78,4 +120,4 @@ Se si aggiungono nuovi file da cachare:
 - Non modificare il progetto GymBro in `/Users/francescobarzano/claude/GymBro/`
 - Non creare file separati per CSS o JS (tutto inline in `index.html`)
 - Non usare emoji come icone nella bottom nav (usare SVG)
-- Non duplicare bottoni per la stessa funzione (es. due servizi di tracking → tenerne uno)
+- Non duplicare bottoni per la stessa funzione
