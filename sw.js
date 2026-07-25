@@ -1,4 +1,4 @@
-const CACHE = 'londra2026-v1';
+const CACHE = 'londra2026-v2';
 const ASSETS = [
   '/',
   '/index.html',
@@ -6,7 +6,16 @@ const ASSETS = [
   '/icons/icon-192x192.png',
   '/icons/icon-512x512.png',
   '/icons/icon-180x180.png',
-  'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap'
+  'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap',
+  '/Biglietti/natural-history-museum.pdf',
+  '/Biglietti/science-museum.pdf',
+  '/Biglietti/warner-bros-harry-potter.pdf',
+  '/Biglietti/national-gallery.pdf',
+  '/Biglietti/osteria-locatelli.pdf',
+  '/Biglietti/british-museum.pdf',
+  '/Biglietti/historic-royal-palace.pdf',
+  '/Biglietti/madame-tussauds.pdf',
+  '/Biglietti/sealife-london.pdf'
 ];
 
 self.addEventListener('install', e => {

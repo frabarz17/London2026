@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Londra 2026 — Il Nostro Viaggio</title>
 <meta name="theme-color" content="#012169">
 <meta name="mobile-web-app-capable" content="yes">
@@ -736,6 +736,34 @@
   .ck-gold { background: var(--gold); color: var(--blue); }
   .ck-red { background: var(--red); color: white; }
   .ck-muted { background: var(--muted); color: white; }
+
+  /* Info pill sub-nav */
+  .info-pill-nav { display: flex; gap: 8px; padding: 14px 0 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .info-pill-nav::-webkit-scrollbar { display: none; }
+  .info-pill { flex-shrink: 0; padding: 7px 16px; border-radius: 20px; border: 1.5px solid rgba(0,0,0,0.12); background: var(--light); font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.3px; color: var(--muted); cursor: pointer; -webkit-tap-highlight-color: transparent; white-space: nowrap; }
+  .info-pill.active { background: var(--blue); border-color: var(--blue); color: white; }
+
+  /* Ticket cards */
+  .ticket-card { background: white; border: 1px solid rgba(0,0,0,0.08); border-radius: 8px; padding: 14px 16px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .ticket-card.vip { border-left: 3px solid var(--red); }
+  .ticket-info { flex: 1; min-width: 0; }
+  .ticket-name { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--ink); }
+  .ticket-day { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 3px; letter-spacing: 0.3px; }
+  .ticket-open { flex-shrink: 0; display: block; padding: 8px 14px; border-radius: 6px; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.3px; text-decoration: none; background: var(--blue); color: white; -webkit-tap-highlight-color: transparent; white-space: nowrap; }
+  .ticket-card.vip .ticket-open { background: var(--red); }
+
+  /* Market section */
+  .market-card { background: white; border: 1px solid rgba(0,0,0,0.08); border-radius: 8px; margin-bottom: 20px; overflow: hidden; }
+  .market-header { display: flex; align-items: center; gap: 12px; padding: 16px 16px 0; }
+  .market-logo { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: white; flex-shrink: 0; }
+  .market-name { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; color: var(--ink); }
+  .market-address { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.5px; margin-top: 2px; }
+  .market-tag { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.5px; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; white-space: nowrap; margin-left: auto; flex-shrink: 0; }
+  .market-desc { font-size: 13px; color: var(--ink); line-height: 1.6; padding: 12px 16px 8px; }
+  .market-hours { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); padding: 0 16px 14px; line-height: 1.8; }
+  .market-map-link { display: block; position: relative; height: 165px; overflow: hidden; text-decoration: none; border-top: 1px solid rgba(0,0,0,0.06); cursor: pointer; }
+  .market-map-frame { width: 100%; height: 165px; border: none; pointer-events: none; display: block; }
+  .market-map-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 28px 14px 10px; background: linear-gradient(transparent, rgba(1,33,105,0.82)); color: white; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.5px; text-align: right; }
 </style>
 </head>
 <body>
@@ -1163,6 +1191,15 @@
             </div>
           </li>
           <li class="tl-item">
+            <div class="tl-dot gold"></div>
+            <div class="tl-time">17:00</div>
+            <div class="tl-content">
+              <div class="tl-name">Fortnum & Mason 🫖</div>
+              <div class="tl-detail">181 Piccadilly — proprio a due passi da Piccadilly Circus. Il negozio di alimentari più iconico di Londra: tè pregiati, confetture, biscotti e packaging da regalo bellissimo. Un'esperienza unica anche solo a guardare. Perfetto per souvenir di qualità.</div>
+              <div class="tl-tip">💡 Il piano terra è quello più scenografico. Se volete uno spuntino, il caffè ai piani superiori è raffinato ma costoso.</div>
+            </div>
+          </li>
+          <li class="tl-item">
             <div class="tl-dot red"></div>
             <div class="tl-time">17:15</div>
             <div class="tl-content">
@@ -1526,8 +1563,16 @@
 
   <div id="info-section" style="display:none">
 
+  <div class="info-pill-nav">
+    <button class="info-pill active" data-sub="voli">Voli</button>
+    <button class="info-pill" data-sub="supermercati">Supermercati</button>
+    <button class="info-pill" data-sub="pratiche">Info Pratiche</button>
+    <button class="info-pill" data-sub="altro">Altro</button>
+  </div>
+
+  <div id="info-sub-voli">
   <!-- VOLI -->
-  <div style="margin-top:24px;margin-bottom:30px;">
+  <div style="margin-top:8px;margin-bottom:30px;">
     <div class="section-title">I Nostri Voli</div>
 
     <!-- ANDATA -->
@@ -1605,8 +1650,79 @@
     </div>
   </div>
 
+  </div><!-- end info-sub-voli -->
+
+  <div id="info-sub-supermercati" style="display:none">
+  <div style="margin-top:8px;">
+    <div class="section-title">Supermercati vicino all'hotel</div>
+    <p style="font-size:12px;color:var(--muted);margin-top:4px;margin-bottom:20px;">A pochi minuti a piedi · per spesa, snack e pasti pronti</p>
+
+    <div class="market-card">
+      <div class="market-header">
+        <div class="market-logo" style="background:#E8452A;">S</div>
+        <div style="flex:1;min-width:0;">
+          <div class="market-name">Sainsbury's</div>
+          <div class="market-address">158a Cromwell Road · SW5</div>
+        </div>
+        <span class="market-tag" style="background:#FEE;color:var(--red);border:1px solid var(--red);">Grande</span>
+      </div>
+      <p class="market-desc">Uno dei supermercati più grandi e riforniti della zona. Perfetto per acquistare cibo fresco, pasti pronti, snack e bevande a prezzi convenienti. Include anche un reparto farmacia e un punto Argos all'interno.</p>
+      <div class="market-hours">
+        Lun–Ven &nbsp;07:00–23:00<br>
+        Sabato &nbsp;&nbsp;&nbsp;07:00–22:00<br>
+        Domenica 11:00–17:00
+      </div>
+      <a href="https://www.google.com/maps/dir/?api=1&destination=Sainsbury%27s%2C+158a+Cromwell+Road%2C+London+SW5&travelmode=transit" target="_blank" rel="noopener" class="market-map-link">
+        <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=-0.2005%2C51.4860%2C-0.1805%2C51.4960&layer=mapnik&marker=51.4910%2C-0.1905" class="market-map-frame" loading="lazy"></iframe>
+        <div class="market-map-overlay">↗ Apri percorso in Maps</div>
+      </a>
+    </div>
+
+    <div class="market-card">
+      <div class="market-header">
+        <div class="market-logo" style="background:#005DA0;">T</div>
+        <div style="flex:1;min-width:0;">
+          <div class="market-name">Tesco Superstore</div>
+          <div class="market-address">West Cromwell Road · W14</div>
+        </div>
+        <span class="market-tag" style="background:#EEF2FF;color:var(--blue);border:1px solid var(--blue);">Ipermercato</span>
+      </div>
+      <p class="market-desc">Grandissimo ipermercato con una scelta immensa di prodotti di ogni genere: alimentari, prodotti per la casa e bakery fresca. Prezzi molto convenienti.</p>
+      <div class="market-hours">
+        Lun–Sab &nbsp;06:00–00:00 (mezzanotte)<br>
+        Domenica 11:00–17:00
+      </div>
+      <a href="https://www.google.com/maps/dir/?api=1&destination=Tesco+Superstore%2C+West+Cromwell+Road%2C+London+W14&travelmode=transit" target="_blank" rel="noopener" class="market-map-link">
+        <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=-0.2150%2C51.4863%2C-0.1950%2C51.4963&layer=mapnik&marker=51.4913%2C-0.2050" class="market-map-frame" loading="lazy"></iframe>
+        <div class="market-map-overlay">↗ Apri percorso in Maps</div>
+      </a>
+    </div>
+
+    <div class="market-card">
+      <div class="market-header">
+        <div class="market-logo" style="background:#005DA0;">T</div>
+        <div style="flex:1;min-width:0;">
+          <div class="market-name">Tesco Express</div>
+          <div class="market-address">87–93 Gloucester Road · SW7</div>
+        </div>
+        <span class="market-tag" style="background:var(--light);color:var(--muted);border:1px solid rgba(0,0,0,0.15);">Minimarket</span>
+      </div>
+      <p class="market-desc">Piccolo punto vendita ideale per acquisti rapidi dell'essenziale — praticamente sotto casa, sulla strada per il tube. Aperto fino a mezzanotte tutti i giorni.</p>
+      <div class="market-hours">
+        Tutti i giorni 06:00–00:00 (mezzanotte)
+      </div>
+      <a href="https://www.google.com/maps/dir/?api=1&destination=Tesco+Express%2C+87+Gloucester+Road%2C+London+SW7&travelmode=transit" target="_blank" rel="noopener" class="market-map-link">
+        <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=-0.1952%2C51.4888%2C-0.1752%2C51.4988&layer=mapnik&marker=51.4938%2C-0.1852" class="market-map-frame" loading="lazy"></iframe>
+        <div class="market-map-overlay">↗ Apri percorso in Maps</div>
+      </a>
+    </div>
+
+  </div>
+  </div><!-- end info-sub-supermercati -->
+
+  <div id="info-sub-pratiche" style="display:none">
   <!-- PRACTICAL INFO -->
-  <div style="margin-top:30px;">
+  <div style="margin-top:8px;">
     <div class="section-title">Informazioni Pratiche</div>
     <div class="info-grid">
       <div class="info-card">
@@ -1632,8 +1748,11 @@
     </div>
   </div>
 
+  </div><!-- end info-sub-pratiche -->
+
+  <div id="info-sub-altro" style="display:none">
   <!-- PRENOTAZIONI DA FARE -->
-  <div style="margin-top:30px;background:white;border:1px solid rgba(0,0,0,0.08);border-radius:8px;padding:28px;">
+  <div style="margin-top:8px;background:white;border:1px solid rgba(0,0,0,0.08);border-radius:8px;padding:28px;">
     <div class="section-title" style="margin-bottom:12px;">Da Prenotare Prima di Partire</div>
     <ul style="list-style:none;display:flex;flex-direction:column;gap:12px;">
 
@@ -1733,6 +1852,8 @@
     <div class="tl-tip" style="margin-top:14px;">💡 Per i bambini di 7 e 9 anni: a Londra i minori di 11 anni viaggiano <b>gratis</b> sulla maggior parte di bus e metro se accompagnati da un adulto con Oyster/contactless valido — non serve comprare loro una card!</div>
   </div>
 
+  </div><!-- end info-sub-altro -->
+
   </div><!-- end info-section -->
 
   <div id="mappa-section" style="display:none">
@@ -1754,6 +1875,86 @@
     </div>
   </div>
 
+  <div id="biglietti-section" style="display:none">
+    <div style="margin-top:24px;">
+      <div class="section-title">I Nostri Biglietti</div>
+      <p style="font-size:12px;color:var(--muted);margin-top:4px;margin-bottom:18px;">Tocca per aprire il PDF · disponibili anche offline</p>
+
+      <div class="ticket-card">
+        <div class="ticket-info">
+          <div class="ticket-name">Natural History Museum</div>
+          <div class="ticket-day">G1 · Mer 29 Lug · ore 15:30</div>
+        </div>
+        <a href="/Biglietti/natural-history-museum.pdf" target="_blank" rel="noopener" class="ticket-open">Apri ↗</a>
+      </div>
+
+      <div class="ticket-card">
+        <div class="ticket-info">
+          <div class="ticket-name">Science Museum</div>
+          <div class="ticket-day">G2 · Gio 30 Lug · ore 10:15</div>
+        </div>
+        <a href="/Biglietti/science-museum.pdf" target="_blank" rel="noopener" class="ticket-open">Apri ↗</a>
+      </div>
+
+      <div class="ticket-card vip">
+        <div class="ticket-info">
+          <div class="ticket-name">Warner Bros — Harry Potter Studios</div>
+          <div class="ticket-day">G3 · Ven 31 Lug · ore 10:30</div>
+        </div>
+        <a href="/Biglietti/warner-bros-harry-potter.pdf" target="_blank" rel="noopener" class="ticket-open">Apri ↗</a>
+      </div>
+
+      <div class="ticket-card">
+        <div class="ticket-info">
+          <div class="ticket-name">National Gallery</div>
+          <div class="ticket-day">G4 · Sab 1 Ago · ore 16:00</div>
+        </div>
+        <a href="/Biglietti/national-gallery.pdf" target="_blank" rel="noopener" class="ticket-open">Apri ↗</a>
+      </div>
+
+      <div class="ticket-card">
+        <div class="ticket-info">
+          <div class="ticket-name">Osteria Locatelli</div>
+          <div class="ticket-day">G4 · Sab 1 Ago · ore 18:45</div>
+        </div>
+        <a href="/Biglietti/osteria-locatelli.pdf" target="_blank" rel="noopener" class="ticket-open">Apri ↗</a>
+      </div>
+
+      <div class="ticket-card">
+        <div class="ticket-info">
+          <div class="ticket-name">British Museum</div>
+          <div class="ticket-day">G5 · Dom 2 Ago · ore 10:40</div>
+        </div>
+        <a href="/Biglietti/british-museum.pdf" target="_blank" rel="noopener" class="ticket-open">Apri ↗</a>
+      </div>
+
+      <div class="ticket-card vip">
+        <div class="ticket-info">
+          <div class="ticket-name">Tower of London</div>
+          <div class="ticket-day">G6 · Lun 3 Ago · ore 09:00</div>
+        </div>
+        <a href="/Biglietti/historic-royal-palace.pdf" target="_blank" rel="noopener" class="ticket-open">Apri ↗</a>
+      </div>
+
+      <div class="ticket-card vip">
+        <div class="ticket-info">
+          <div class="ticket-name">Madame Tussauds</div>
+          <div class="ticket-day">G7 · Mar 4 Ago · ore 10:00</div>
+        </div>
+        <a href="/Biglietti/madame-tussauds.pdf" target="_blank" rel="noopener" class="ticket-open">Apri ↗</a>
+      </div>
+
+      <div class="ticket-card">
+        <div class="ticket-info">
+          <div class="ticket-name">SEA LIFE London Aquarium</div>
+          <div class="ticket-day">G8 · Mer 5 Ago · ore 15:30</div>
+        </div>
+        <a href="/Biglietti/sealife-london.pdf" target="_blank" rel="noopener" class="ticket-open">Apri ↗</a>
+      </div>
+
+    </div>
+  </div>
+
 </main>
 
 <nav class="bottom-nav" id="bottomNav">
@@ -1772,6 +1973,10 @@
   <div class="nav-item" data-section="info">
     <span class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="8" stroke-width="2.5"/><line x1="12" y1="12" x2="12" y2="16"/></svg></span>
     <span class="nav-label">Info</span>
+  </div>
+  <div class="nav-item" data-section="biglietti">
+    <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7" stroke-width="2.5"/></svg></span>
+    <span class="nav-label">Biglietti</span>
   </div>
 </nav>
 
@@ -1809,7 +2014,7 @@
   selectDay(diff >= 0 && diff < 9 ? diff : 0);
 
   // Bottom nav section switching
-  const sections = ['itinerario', 'mappa', 'metro', 'info'];
+  const sections = ['itinerario', 'mappa', 'metro', 'info', 'biglietti'];
   document.querySelectorAll('.nav-item').forEach(item => {
     item.addEventListener('click', () => {
       const sec = item.dataset.section;
@@ -1821,6 +2026,20 @@
       });
       const dayTabsWrapper = document.getElementById('dayTabs');
       dayTabsWrapper.style.display = sec === 'itinerario' ? '' : 'none';
+    });
+  });
+
+  // Info pill sub-nav
+  const infoSubs = ['voli', 'supermercati', 'pratiche', 'altro'];
+  document.querySelectorAll('.info-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      const sub = pill.dataset.sub;
+      document.querySelectorAll('.info-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      infoSubs.forEach(s => {
+        const el = document.getElementById('info-sub-' + s);
+        if (el) el.style.display = s === sub ? '' : 'none';
+      });
     });
   });
 
@@ -1851,6 +2070,7 @@
     'London Eye': 'London Eye, London',
     'Trafalgar Square': 'Trafalgar Square, London',
     'Piccadilly Circus': 'Piccadilly Circus, London',
+    'Fortnum & Mason': 'Fortnum & Mason, 181 Piccadilly, London',
     'Covent Garden': 'Covent Garden, London',
     'Carnaby Street': 'Carnaby Street, London',
     'Hyde Park': 'Hyde Park, London',
