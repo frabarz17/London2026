@@ -1,4 +1,4 @@
-const CACHE = 'londra2026-v16';
+const CACHE = 'londra2026-v17';
 const ASSETS = [
   '/',
   '/index.html',
@@ -33,7 +33,26 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
-  e.respondWith(
-    caches.match(e.request).then(cached => cached || fetch(e.request))
-  );
+  const req = e.request;
+  const isHTML = req.mode === 'navigate' ||
+    (req.headers.get('accept') || '').includes('text/html');
+
+  if (isHTML) {
+    // Network-first per l'HTML: online prende sempre l'ultima versione,
+    // offline usa la cache. Evita di servire versioni vecchie all'avvio.
+    e.respondWith(
+      fetch(req)
+        .then(res => {
+          const copy = res.clone();
+          caches.open(CACHE).then(c => c.put(req, copy));
+          return res;
+        })
+        .catch(() => caches.match(req).then(c => c || caches.match('/index.html')))
+    );
+  } else {
+    // Cache-first per gli asset statici (PDF, font, icone)
+    e.respondWith(
+      caches.match(req).then(cached => cached || fetch(req))
+    );
+  }
 });

@@ -27,7 +27,6 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   html {
-    height: 100%;
     background: var(--cream);
   }
   /* App-shell a viewport fisso: body è una colonna flex che riempie
@@ -36,8 +35,8 @@
      fondo in modo identico in tutte le sezioni, senza dipendere dai quirk
      iOS di `position:fixed; bottom:0`. */
   body {
-    height: 100vh;      /* fallback */
-    height: 100dvh;     /* iOS standalone: mappa lo schermo intero */
+    position: fixed;
+    inset: 0;           /* pin a tutti i bordi del viewport = schermo intero su iOS standalone */
     background: var(--cream);
     color: var(--ink);
     font-family: 'DM Sans', sans-serif;
