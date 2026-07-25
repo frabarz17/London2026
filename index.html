@@ -758,7 +758,9 @@
   .fx-input { width: 100%; border: none; background: transparent; font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--ink); padding: 0; -webkit-appearance: none; outline: none; }
   .fx-input::placeholder { color: rgba(0,0,0,0.18); }
   .fx-cur { font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 500; color: var(--muted); flex: 0 0 auto; }
-  .fx-swap { display: flex; align-items: center; justify-content: center; margin: 6px 0; width: 100%; background: none; border: none; padding: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .fx-actions { display: flex; gap: 8px; margin: 6px 0; }
+  .fx-swap { flex: 1; display: flex; align-items: center; justify-content: center; background: none; border: none; padding: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .fx-swap span { width: 100%; text-align: center; }
   .fx-swap span { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 1px; color: var(--blue); background: var(--light); border: 1px solid rgba(1,33,105,0.15); border-radius: 20px; padding: 4px 14px; }
   .fx-swap:active span { background: var(--blue); color: white; }
 
@@ -1633,7 +1635,10 @@
         </div>
         <div class="fx-cur" id="fx-top-cur">GBP</div>
       </div>
-      <button type="button" class="fx-swap" id="fx-swap"><span>⇅ inverti valute</span></button>
+      <div class="fx-actions">
+        <button type="button" class="fx-swap" id="fx-swap"><span>⇅ inverti valute</span></button>
+        <button type="button" class="fx-swap" id="fx-clear"><span>✕ cancella</span></button>
+      </div>
       <div class="fx-row">
         <div class="fx-flag" id="fx-bot-flag">🇪🇺</div>
         <div class="fx-field">
@@ -2193,6 +2198,12 @@
       topCur = botCur();
       const tv = topIn.value; topIn.value = botIn.value; botIn.value = tv;
       render();
+    });
+
+    // Cancella: svuota entrambi i campi
+    const clearBtn = document.getElementById('fx-clear');
+    if (clearBtn) clearBtn.addEventListener('click', () => {
+      topIn.value = ''; botIn.value = ''; topIn.focus();
     });
 
     function setRate(r, live) {
