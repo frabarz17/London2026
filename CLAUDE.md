@@ -65,7 +65,9 @@ Ogni sezione è un `div` con `id="<nome>-section"`, visibile/nascosta via `style
 | `info-section` | Info | Pill sub-nav con 4 voci (vedi sotto) |
 | `biglietti-section` | Biglietti | 9 card ticket PDF apribili |
 
-Le sezioni `#mappa-section` e `#metro-section` usano `position: fixed; top: 46px; bottom: 70px` per riempire correttamente l'area senza i day-tabs.
+Le sezioni `#mappa-section` e `#metro-section` usano `position: fixed; top: calc(46px + safe-area-top); bottom: 0` (arrivano fino in fondo, dietro il nav bianco che le copre).
+
+**IMPORTANTE — bug iOS PWA (nav che "sale"):** in modalità PWA standalone, un `<body>` non scrollabile fa posizionare il nav `position: fixed; bottom: 0` più in alto del fondo reale, lasciando una striscia crema sotto. Siccome mappa/metro sono `position: fixed` (niente contenuto in flusso), il body non scrolla. Il JS di switching forza quindi `document.body.style.minHeight = '200vh'` quando si apre mappa/metro, così il body torna scrollabile e il nav si ancora al fondo reale. **Non rimuovere questo toggle.**
 
 ### Info section — pill sub-nav interna
 La sezione Info ha una barra di pill orizzontale (`.info-pill-nav`) che mostra/nasconde 4 blocchi:

@@ -89,10 +89,12 @@ Mettere le chiavi più specifiche prima di quelle generiche (il `find` si ferma 
 
 ## Sezioni mappa e metro
 
-- Usano `position: fixed; top: 46px; bottom: 70px; left: 0; right: 0; z-index: 100`
+- Usano `position: fixed; top: calc(46px + env(safe-area-inset-top)); bottom: 0; left: 0; right: 0; z-index: 100` — arrivano fino in fondo, dietro il nav bianco (z-index 200) che le copre
 - Se si cambia l'altezza dell'`.app-bar`, aggiornare il valore `top` di queste sezioni
 - La sezione metro mostra un `<img>` SVG (1400px width) in un container `overflow: auto`
 - La sezione mappa usa un `<iframe>` con la Google My Maps
+
+**⚠️ Bug iOS PWA — non rimuovere il `minHeight` toggle:** in PWA standalone, un `<body>` non scrollabile fa "salire" il nav `position: fixed; bottom: 0`, lasciando una striscia crema sotto. Mappa/metro sono `position: fixed` (niente contenuto in flusso → body non scrollabile), quindi il JS di section-switching imposta `document.body.style.minHeight = '200vh'` quando sono attive, per rendere il body scrollabile e ancorare il nav al fondo reale. Le altre sezioni resettano `minHeight` a `''`.
 
 ## PWA — aggiornare il service worker
 
