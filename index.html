@@ -674,7 +674,7 @@
   #mappa-section, #metro-section {
     position: fixed;
     top: calc(46px + env(safe-area-inset-top, 0px));
-    bottom: calc(70px + env(safe-area-inset-bottom, 0px));
+    bottom: 0;
     left: 0; right: 0;
     z-index: 100;
   }
@@ -2049,6 +2049,9 @@
       });
       const dayTabsWrapper = document.getElementById('dayTabs');
       dayTabsWrapper.style.display = sec === 'itinerario' ? '' : 'none';
+      document.body.style.paddingTop = sec === 'itinerario'
+        ? 'calc(100px + env(safe-area-inset-top, 0px))'
+        : 'calc(46px + env(safe-area-inset-top, 0px))';
     });
   });
 
