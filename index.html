@@ -682,10 +682,13 @@
 
   .nav-item.active .nav-label { color: var(--blue); }
 
+  /* Mappa/Metro arrivano fino in fondo (bottom:0, dietro il nav) e il nav
+     bianco solido — che raggiunge il bordo reale come nelle altre sezioni —
+     copre il fondo. Niente numero magico da far combaciare col nav. */
   #mappa-section, #metro-section {
     position: fixed;
     top: calc(46px + env(safe-area-inset-top, 0px));
-    bottom: calc(70px + env(safe-area-inset-bottom, 0px));
+    bottom: 0;
     left: 0; right: 0;
     z-index: 100;
   }
@@ -785,7 +788,7 @@
 <div class="app-header">
   <div class="app-bar">
     <div class="app-title">Londra <span>2026</span></div>
-    <div class="app-ver">v19</div>
+    <div class="app-ver">v20</div>
   </div>
   <div class="day-tabs" id="dayTabs"></div>
 </div>
