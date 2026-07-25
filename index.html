@@ -1626,21 +1626,21 @@
 
     <div class="fx-card">
       <div class="fx-row">
-        <div class="fx-flag">🇬🇧</div>
+        <div class="fx-flag" id="fx-top-flag">🇬🇧</div>
         <div class="fx-field">
-          <label for="fx-gbp">Sterline</label>
-          <input id="fx-gbp" class="fx-input" type="text" inputmode="decimal" placeholder="0" autocomplete="off" enterkeyhint="done">
+          <label for="fx-top" id="fx-top-label">Sterline</label>
+          <input id="fx-top" class="fx-input" type="text" inputmode="decimal" placeholder="0" autocomplete="off" enterkeyhint="done">
         </div>
-        <div class="fx-cur">GBP</div>
+        <div class="fx-cur" id="fx-top-cur">GBP</div>
       </div>
-      <button type="button" class="fx-swap" id="fx-swap"><span>⇅ inverti</span></button>
+      <button type="button" class="fx-swap" id="fx-swap"><span>⇅ inverti valute</span></button>
       <div class="fx-row">
-        <div class="fx-flag">🇪🇺</div>
+        <div class="fx-flag" id="fx-bot-flag">🇪🇺</div>
         <div class="fx-field">
-          <label for="fx-eur">Euro</label>
-          <input id="fx-eur" class="fx-input" type="text" inputmode="decimal" placeholder="0" autocomplete="off" enterkeyhint="done">
+          <label for="fx-bot" id="fx-bot-label">Euro</label>
+          <input id="fx-bot" class="fx-input" type="text" inputmode="decimal" placeholder="0" autocomplete="off" enterkeyhint="done">
         </div>
-        <div class="fx-cur">EUR</div>
+        <div class="fx-cur" id="fx-bot-cur">EUR</div>
       </div>
     </div>
 
@@ -2138,48 +2138,70 @@
     });
   });
 
-  // Currency converter GBP <-> EUR
+  // Currency converter GBP <-> EUR (orientabile)
   (function () {
-    const gbpIn = document.getElementById('fx-gbp');
-    const eurIn = document.getElementById('fx-eur');
+    const topIn = document.getElementById('fx-top');
+    const botIn = document.getElementById('fx-bot');
     const rateInfo = document.getElementById('fx-rate-info');
-    if (!gbpIn || !eurIn) return;
+    if (!topIn || !botIn) return;
 
+    const META = {
+      GBP: { flag: '🇬🇧', label: 'Sterline', code: 'GBP' },
+      EUR: { flag: '🇪🇺', label: 'Euro', code: 'EUR' }
+    };
     const FALLBACK_RATE = 1.17;   // 1 GBP = X EUR, usato offline
     let rate = FALLBACK_RATE;
+    let topCur = 'GBP';           // valuta mostrata in alto
 
+    const botCur = () => topCur === 'GBP' ? 'EUR' : 'GBP';
     const parse = v => parseFloat(String(v).replace(',', '.').replace(/[^\d.]/g, ''));
     const fmt = n => (Math.round(n * 100) / 100).toFixed(2);
+    const conv = (a, from, to) => from === to ? a : (from === 'GBP' ? a * rate : a / rate);
 
-    function fromGbp() {
-      const v = parse(gbpIn.value);
-      eurIn.value = gbpIn.value.trim() === '' || isNaN(v) ? '' : fmt(v * rate);
+    function fromTop() {
+      const v = parse(topIn.value);
+      botIn.value = topIn.value.trim() === '' || isNaN(v) ? '' : fmt(conv(v, topCur, botCur()));
     }
-    function fromEur() {
-      const v = parse(eurIn.value);
-      gbpIn.value = eurIn.value.trim() === '' || isNaN(v) ? '' : fmt(v / rate);
+    function fromBot() {
+      const v = parse(botIn.value);
+      topIn.value = botIn.value.trim() === '' || isNaN(v) ? '' : fmt(conv(v, botCur(), topCur));
     }
-    gbpIn.addEventListener('input', fromGbp);
-    eurIn.addEventListener('input', fromEur);
+    topIn.addEventListener('input', fromTop);
+    botIn.addEventListener('input', fromBot);
 
+    function render() {
+      const t = META[topCur], b = META[botCur()];
+      document.getElementById('fx-top-flag').textContent = t.flag;
+      document.getElementById('fx-top-label').textContent = t.label;
+      document.getElementById('fx-top-cur').textContent = t.code;
+      document.getElementById('fx-bot-flag').textContent = b.flag;
+      document.getElementById('fx-bot-label').textContent = b.label;
+      document.getElementById('fx-bot-cur').textContent = b.code;
+    }
+
+    // Chip: importo in sterline -> va nel campo GBP ovunque si trovi
     document.querySelectorAll('.fx-chip').forEach(chip => {
-      chip.addEventListener('click', () => { gbpIn.value = chip.dataset.gbp; fromGbp(); });
+      chip.addEventListener('click', () => {
+        if (topCur === 'GBP') { topIn.value = chip.dataset.gbp; fromTop(); }
+        else { botIn.value = chip.dataset.gbp; fromBot(); }
+      });
     });
 
-    // Inverti: sposta l'importo attuale in euro nel campo sterline (e viceversa)
+    // Inverti valute: scambia sopra/sotto mantenendo l'equivalenza mostrata
     const swapBtn = document.getElementById('fx-swap');
     if (swapBtn) swapBtn.addEventListener('click', () => {
-      const g = gbpIn.value, e = eurIn.value;
-      gbpIn.value = e; eurIn.value = g;
-      if (gbpIn.value.trim() !== '') fromGbp(); else fromEur();
+      topCur = botCur();
+      const tv = topIn.value; topIn.value = botIn.value; botIn.value = tv;
+      render();
     });
 
     function setRate(r, live) {
       rate = r;
       rateInfo.innerHTML = '1 £ = <b>' + fmt(r).replace('.', ',') + ' €</b> · ' +
         (live ? 'aggiornato ora' : 'tasso offline');
-      if (gbpIn.value.trim() !== '') fromGbp();
+      if (topIn.value.trim() !== '') fromTop();
     }
+    render();
     setRate(FALLBACK_RATE, false);
 
     fetch('https://api.frankfurter.app/latest?from=GBP&to=EUR')
