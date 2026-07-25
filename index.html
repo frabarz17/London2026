@@ -27,23 +27,25 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   html {
-    background: white;
+    height: 100%;
+    background: var(--cream);
   }
+  /* App-shell a viewport fisso: body è una colonna flex che riempie
+     esattamente lo schermo. Header e nav sono flex item (non fixed), main
+     è l'unico contenitore scrollabile. Così il nav è sempre incollato in
+     fondo in modo identico in tutte le sezioni, senza dipendere dai quirk
+     iOS di `position:fixed; bottom:0`. */
   body {
+    height: 100%;
     background: var(--cream);
     color: var(--ink);
     font-family: 'DM Sans', sans-serif;
     font-weight: 300;
     line-height: 1.6;
-    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
     overscroll-behavior: none;
-  }
-  /* In PWA standalone il body cream viene usato da iOS per colorare le
-     safe zone native — rendiamo il body transparent e mettiamo cream su main
-     così l'html (white) controlla le safe zone */
-  @media (display-mode: standalone) {
-    body { background: transparent; }
-    main { background: var(--cream); }
   }
 
   /* HEADER */
@@ -151,9 +153,18 @@
 
   /* MAIN LAYOUT */
   main {
+    flex: 1 1 auto;
+    position: relative;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+  /* Padding/centratura sui blocchi di contenuto scrollabile
+     (mappa/metro restano full-bleed) */
+  #itinerario-section, #info-section, #biglietti-section {
     max-width: 900px;
     margin: 0 auto;
-    padding: 50px 24px 80px;
+    padding: 16px 24px 28px;
   }
 
   /* SECTION TITLE */
@@ -525,7 +536,7 @@
 
   /* RESPONSIVE */
   @media (max-width: 600px) {
-    main { padding: 20px 16px 20px; }
+    #itinerario-section, #info-section, #biglietti-section { padding: 14px 16px 24px; }
     .day-body { padding-left: 16px; }
     .timeline::before { display: none; }
     .day-number { width: 56px; }
@@ -533,15 +544,9 @@
   }
 
   /* ===== APP SHELL ===== */
-  body {
-    padding-top: calc(100px + env(safe-area-inset-top, 0px));
-    padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px));
-  }
-
-  /* App header (fixed) */
+  /* App header — flex item in cima; padding-top copre la safe area (notch) */
   .app-header {
-    position: fixed;
-    top: 0; left: 0; right: 0;
+    flex: 0 0 auto;
     z-index: 200;
     background: var(--blue);
     box-shadow: 0 2px 12px rgba(0,0,0,0.25);
@@ -646,8 +651,7 @@
 
   /* Bottom nav */
   .bottom-nav {
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
+    flex: 0 0 auto;
     z-index: 200;
     background: white;
     border-top: 1px solid var(--light);
@@ -655,7 +659,8 @@
     padding-bottom: env(safe-area-inset-bottom, 0px);
     box-shadow: 0 -2px 10px rgba(0,0,0,0.06);
   }
-  /* In modalità PWA standalone env() può returnare 0 — hardcoda il padding */
+  /* In modalità PWA standalone env() può returnare 0 — hardcoda il padding
+     per tenere le icone sopra l'home indicator */
   @media (display-mode: standalone) {
     .bottom-nav {
       padding-bottom: max(env(safe-area-inset-bottom, 34px), 34px);
@@ -688,12 +693,10 @@
 
   .nav-item.active .nav-label { color: var(--blue); }
 
+  /* Mappa/Metro riempiono full-bleed l'area di main (che è position:relative) */
   #mappa-section, #metro-section {
-    position: fixed;
-    top: calc(46px + env(safe-area-inset-top, 0px));
-    bottom: 0;
-    left: 0; right: 0;
-    z-index: 100;
+    position: absolute;
+    inset: 0;
     overscroll-behavior: none;
   }
 
@@ -2068,11 +2071,9 @@
       });
       const dayTabsWrapper = document.getElementById('dayTabs');
       dayTabsWrapper.style.display = sec === 'itinerario' ? '' : 'none';
-      document.body.style.paddingTop = sec === 'itinerario'
-        ? 'calc(100px + env(safe-area-inset-top, 0px))'
-        : 'calc(46px + env(safe-area-inset-top, 0px))';
-      // Blocca il rubber-banding iOS in mappa/metro (fixed sections)
-      document.body.style.overflow = (sec === 'mappa' || sec === 'metro') ? 'hidden' : '';
+      // Reset scroll in cima quando si cambia sezione
+      const mainEl = document.querySelector('main');
+      if (mainEl) mainEl.scrollTop = 0;
     });
   });
 
@@ -2154,16 +2155,6 @@
     });
   }
 
-  // Blocca rubber-banding iOS nelle sezioni fisse (mappa/metro)
-  // L'eccezione permette il normale scroll dentro il tube-map-wrapper
-  ['mappa-section', 'metro-section'].forEach(id => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.addEventListener('touchmove', e => {
-      if (e.target.closest && e.target.closest('.tube-map-wrapper')) return;
-      e.preventDefault();
-    }, { passive: false });
-  });
 </script>
 
 </body>
