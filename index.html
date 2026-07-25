@@ -698,6 +698,7 @@
     -webkit-overflow-scrolling: touch;
     background: white;
     touch-action: pan-x pan-y;
+    overscroll-behavior: contain;
   }
   .tube-map-img {
     width: 1400px;
@@ -2139,6 +2140,17 @@
       navigator.serviceWorker.register('/sw.js');
     });
   }
+
+  // Blocca rubber-banding iOS nelle sezioni fisse (mappa/metro)
+  // L'eccezione permette il normale scroll dentro il tube-map-wrapper
+  ['mappa-section', 'metro-section'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('touchmove', e => {
+      if (e.target.closest && e.target.closest('.tube-map-wrapper')) return;
+      e.preventDefault();
+    }, { passive: false });
+  });
 </script>
 
 </body>

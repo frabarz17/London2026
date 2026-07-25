@@ -1,4 +1,4 @@
-const CACHE = 'londra2026-v7';
+const CACHE = 'londra2026-v8';
 const ASSETS = [
   '/',
   '/index.html',
