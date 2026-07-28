@@ -2391,14 +2391,18 @@
     const searchSection = document.getElementById('search-section');
     const searchClose = document.getElementById('searchClose');
 
-    // Build index: all .tl-name elements with their day info
+    // Build index: full .tl-content text (name + description + tips) with display name
     const searchIndex = [];
     document.querySelectorAll('.day-card').forEach((card, dayIdx) => {
       if (dayIdx >= DAYS.length) return;
       const d = DAYS[dayIdx];
-      card.querySelectorAll('.tl-name').forEach(nameEl => {
+      card.querySelectorAll('.tl-item').forEach(item => {
+        const nameEl = item.querySelector('.tl-name');
+        if (!nameEl) return;
+        const contentEl = item.querySelector('.tl-content');
         searchIndex.push({
-          text: nameEl.textContent.trim(),
+          text: (contentEl || nameEl).textContent.trim(),
+          displayText: nameEl.textContent.trim(),
           dayIdx,
           dayN: d.n,
           dayDate: d.date,
@@ -2449,7 +2453,7 @@
             <div class="search-result-day-n">G${item.dayN}</div>
             <div class="search-result-day-d">${item.dayDate}</div>
           </div>
-          <div class="search-result-name">${item.text}</div>
+          <div class="search-result-name">${item.displayText}</div>
           <svg class="search-result-arrow" viewBox="0 0 24 24" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>
         </div>
       `).join('');
