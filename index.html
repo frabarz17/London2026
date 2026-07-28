@@ -793,13 +793,110 @@
   .market-map-link { display: block; position: relative; height: 165px; overflow: hidden; text-decoration: none; border-top: 1px solid rgba(0,0,0,0.06); cursor: pointer; }
   .market-map-frame { width: 100%; height: 165px; border: none; pointer-events: none; display: block; }
   .market-map-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 28px 14px 10px; background: linear-gradient(transparent, rgba(1,33,105,0.82)); color: white; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.5px; text-align: right; }
+
+  /* SEARCH */
+  .search-btn {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 6px;
+    color: white;
+    padding: 6px;
+    cursor: pointer;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .search-btn svg { width: 18px; height: 18px; stroke: white; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+  #search-section { padding: 4px 0 80px; }
+  .search-input-row {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 8px;
+    padding: 10px 14px;
+    gap: 10px;
+    margin: 10px 14px 0;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  }
+  .search-input-row svg { width: 18px; height: 18px; fill: none; stroke: var(--muted); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+  #searchInput {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    background: transparent;
+    color: var(--ink);
+  }
+  #searchInput::placeholder { color: var(--muted); }
+  .search-close-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: var(--muted);
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 2px;
+    font-weight: 300;
+  }
+  .search-hint {
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+    padding: 32px 24px 0;
+    line-height: 1.6;
+  }
+  .search-empty {
+    text-align: center;
+    color: var(--muted);
+    font-size: 14px;
+    padding: 32px 24px 0;
+  }
+  #searchResults { padding: 12px 14px 0; }
+  .search-result-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    border: 1px solid rgba(0,0,0,0.07);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .search-result-item:active { background: var(--light); }
+  .search-result-day {
+    background: var(--blue);
+    color: white;
+    border-radius: 4px;
+    padding: 4px 8px;
+    text-align: center;
+    flex-shrink: 0;
+    min-width: 46px;
+  }
+  .search-result-day-n { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; line-height: 1; }
+  .search-result-day-d { font-family: 'DM Mono', monospace; font-size: 9px; opacity: 0.65; margin-top: 2px; line-height: 1; }
+  .search-result-name { font-size: 14px; color: var(--ink); flex: 1; line-height: 1.3; }
+  .search-result-arrow { flex-shrink: 0; fill: none; stroke: #ccc; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 </style>
 </head>
 <body>
 
 <div class="app-header">
-  <div class="app-bar">
+  <div class="app-bar" style="position:relative;">
     <div class="app-title">Londra <span>2026</span></div>
+    <button class="search-btn" id="searchBtn" aria-label="Cerca attrazioni">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
   </div>
   <div class="day-tabs" id="dayTabs"></div>
 </div>
@@ -2045,6 +2142,15 @@
     </div>
   </div>
 
+  <div id="search-section" style="display:none">
+    <div class="search-input-row">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="search" id="searchInput" placeholder="Cerca un'attrazione…" autocomplete="off" autocorrect="off" autocapitalize="off">
+      <button class="search-close-btn" id="searchClose">✕</button>
+    </div>
+    <div id="searchResults"></div>
+  </div>
+
 </main>
 
 <nav class="bottom-nav" id="bottomNav">
@@ -2276,6 +2382,93 @@
     btn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Guidami`;
     nameEl.closest('.tl-content').appendChild(btn);
   });
+
+  // Search
+  (function () {
+    const searchBtn = document.getElementById('searchBtn');
+    const searchInput = document.getElementById('searchInput');
+    const searchResultsEl = document.getElementById('searchResults');
+    const searchSection = document.getElementById('search-section');
+    const searchClose = document.getElementById('searchClose');
+
+    // Build index: all .tl-name elements with their day info
+    const searchIndex = [];
+    document.querySelectorAll('.day-card').forEach((card, dayIdx) => {
+      if (dayIdx >= DAYS.length) return;
+      const d = DAYS[dayIdx];
+      card.querySelectorAll('.tl-name').forEach(nameEl => {
+        searchIndex.push({
+          text: nameEl.textContent.trim(),
+          dayIdx,
+          dayN: d.n,
+          dayDate: d.date,
+        });
+      });
+    });
+
+    let prevSection = 'itinerario';
+
+    function openSearch() {
+      const activeNav = document.querySelector('.nav-item.active');
+      prevSection = activeNav ? activeNav.dataset.section : 'itinerario';
+      sections.forEach(s => {
+        const el = document.getElementById(s + '-section');
+        if (el) el.style.display = 'none';
+      });
+      searchSection.style.display = '';
+      document.getElementById('dayTabs').style.display = 'none';
+      document.body.style.paddingTop = 'calc(46px + env(safe-area-inset-top, 0px))';
+      document.body.style.minHeight = '';
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      searchInput.value = '';
+      searchResultsEl.innerHTML = '<div class="search-hint">Cerca tra le attrazioni del viaggio per scoprire in quale giorno sono previste.</div>';
+      setTimeout(() => searchInput.focus(), 80);
+    }
+
+    function closeSearch() {
+      searchSection.style.display = 'none';
+      searchInput.value = '';
+      const navItem = document.querySelector(`.nav-item[data-section="${prevSection}"]`);
+      if (navItem) navItem.click();
+    }
+
+    function renderResults(query) {
+      const q = query.trim().toLowerCase();
+      if (!q) {
+        searchResultsEl.innerHTML = '<div class="search-hint">Cerca tra le attrazioni del viaggio per scoprire in quale giorno sono previste.</div>';
+        return;
+      }
+      const matches = searchIndex.filter(item => item.text.toLowerCase().includes(q));
+      if (!matches.length) {
+        searchResultsEl.innerHTML = `<div class="search-empty">Nessun risultato per "<b>${query}</b>"</div>`;
+        return;
+      }
+      searchResultsEl.innerHTML = matches.map(item => `
+        <div class="search-result-item" data-day-idx="${item.dayIdx}">
+          <div class="search-result-day">
+            <div class="search-result-day-n">G${item.dayN}</div>
+            <div class="search-result-day-d">${item.dayDate}</div>
+          </div>
+          <div class="search-result-name">${item.text}</div>
+          <svg class="search-result-arrow" viewBox="0 0 24 24" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+      `).join('');
+      searchResultsEl.querySelectorAll('.search-result-item').forEach(el => {
+        el.addEventListener('click', () => {
+          const idx = parseInt(el.dataset.dayIdx);
+          closeSearch();
+          setTimeout(() => selectDay(idx), 60);
+        });
+      });
+    }
+
+    searchBtn.addEventListener('click', openSearch);
+    searchClose.addEventListener('click', closeSearch);
+    searchInput.addEventListener('input', () => renderResults(searchInput.value));
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && searchSection.style.display !== 'none') closeSearch();
+    });
+  })();
 </script>
 
 <script>
